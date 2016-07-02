@@ -22,6 +22,27 @@ function New-MockedTestResult
 
     return $testResult                
 }
+
+function New-MockedTestResultCollection
+{
+    param(
+        [int] $passedCount = 0,
+        [int] $failedCount = 0,
+        [int] $skippedCount = 0,
+        [int] $pendingCount = 0,
+        [object[]] $testResult
+    )
+        $mockedTestResult = [PSCustomObject] @{
+            PassedCount = $passedCount
+            FailedCount = $failedCount
+            SkippedCount = $skippedCount
+            PendingCount = $pendingCount
+            TotalCount = $passedCount+$failedCount+$skippedCount+$pendingCount
+            TestResult = $testResult
+        }
+        return $mockedTestResult
+}
+
 Describe 'Format-Pester' {
     BeforeAll {
         # Backup the default parameters so we can restor them
@@ -46,16 +67,12 @@ Describe 'Format-Pester' {
     }
     
     Context 'Format HTML' {
-        $mockedTestResult = [PSCustomObject] @{
-            PassedCount =1
-            FailedCount =1
-            TotalCount =2
-            TestResult = @(
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
-    
             )
-        }
+
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
 
         it 'Should not throw' {
@@ -70,16 +87,12 @@ Describe 'Format-Pester' {
     }
 
     Context 'Format Word' {
-        $mockedTestResult = [PSCustomObject] @{
-            PassedCount =1
-            FailedCount =1
-            TotalCount =2
-            TestResult = @(
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
-    
             )
-        }
+
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
 
         it 'Should not throw' {
@@ -92,16 +105,12 @@ Describe 'Format-Pester' {
     }
 
     Context 'Format Text' {
-        $mockedTestResult = [PSCustomObject] @{
-            PassedCount =1
-            FailedCount =1
-            TotalCount =2
-            TestResult = @(
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
-    
             )
-        }
+
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
 
         it 'Should not throw'  {
@@ -132,16 +141,12 @@ Describe 'Format-Pester' {
     }
 
     Context 'BaseFileName not specified' {
-        $mockedTestResult = [PSCustomObject] @{
-            PassedCount =1
-            FailedCount =1
-            TotalCount =2
-            TestResult = @(
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
-    
             )
-        }
+
         $logFolder = 'TestDrive:\logs'
         if(!(Test-path $logFolder))
         {
@@ -156,15 +161,12 @@ Describe 'Format-Pester' {
         }
     }
     Context 'Result Processing - all passed' {
-        $mockedTestResult = [PSCustomObject] @{
-            PassedCount =2
-            FailedCount =0
-            TotalCount =2
-            TestResult = @(
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 2 `
+            -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Passed
             )
-        }
+
 
         $logFolder = 'TestDrive:\logs'
         if(!(Test-path $logFolder))
