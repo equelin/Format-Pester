@@ -14,6 +14,8 @@ Function Format-Pester {
     )
 
     Document 'Pester_Results' {
+        $defaultColumns = @('TotalCount','PassedCount','FailedCount','SkippedCount','PendingCount')
+        $defaultHeaders = 'Total Tests','Passed Tests','Failed Tests','Skipped Tests','Pending Tests'
 
         # Global options
         GlobalOption -PageSize A4
@@ -22,38 +24,52 @@ Function Format-Pester {
         Style -Name Total -Color White -BackgroundColor Blue
         Style -Name Passed -Color White -BackgroundColor Green
         Style -Name Failed -Color White -BackgroundColor Red
+        Style -Name Other -Color White -BackgroundColor Gray
 
         # Table of content
         TOC -Name 'Table of Contents'
         
         # Results Summary
+        $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount} |Sort-Object -Property FailedCount -Descending
         Section -Style Heading2 'Results summary' {
 
-            $PesterResult | Set-Style -Style 'Total' -Property 'TotalCount'
-            $PesterResult | Set-Style -Style 'Passed' -Property 'PassedCount'
-            $PesterResult | Set-Style -Style 'Failed' -Property 'FailedCount'
-            $PesterResult | Table -Columns TotalCount,PassedCount,FailedCount -Headers 'Total Tests','Passed Tests','Failed Tests'
+            $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
+            $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
+            $ValidResults | Set-Style -Style 'Failed' -Property 'FailedCount'
+            $ValidResults | Set-Style -Style 'Other' -Property 'SkippedCount'
+            $ValidResults | Set-Style -Style 'Other' -Property 'PendingCount'
+            $ValidResults | Table -Columns $defaultColumns -Headers $defaultHeaders   
 
         }
+        $counter = 1
 
-        # Errors details
-        Section -Style Heading2 'Errors details' {
+        # Errors details - Grouped by Describe
+        foreach($resultsGroup in $PesterResult.TestResult | Where-Object {$_.Result -eq 'Failed'} |Group-Object -Property Describe )
+        {
+            $results = $resultsGroup.Group
+            $name = $resultsGroup.Name
+
+            Section -Style Heading2 "$counter. Errors details:  $name" {
             
-            Paragraph "$($PesterResult.FailedCount) test(s) failed:"
+                Paragraph "$($results.Count) test(s) failed:"
 
-            $PesterResult.TestResult | 
-            Where { $_.Result -eq 'Failed'} | 
-            Table -Columns Describe,Context,Name,FailureMessage -Headers 'Describe','Context','Name','Failure Message' -Width 0 
+                $results | 
+                Table -Columns Context,Name,FailureMessage -Headers 'Context','Name','Failure Message' -Width 0 
+        }
+            $counter++
         }
 
         # Success details
-        Section -Style Heading2 'Success details' {
-            
-            Paragraph "$($PesterResult.PassedCount) test(s) passed:"
+        $results = $PesterResult.TestResult | Where-Object {$_.Result -ne 'Failed'}
+        if($results)
+        {
+            Section -Style Heading2 "Success details" {
+                
+                Paragraph "$($results.Count) test(s) passed:"
 
-            $PesterResult.TestResult | 
-            Where { $_.Result -eq 'Passed'} | 
-            Table -Columns Describe,Context,Name -Headers 'Describe','Context','Name' -Width 0
+                $results | 
+                Table -Columns Describe, Context,Name -Headers 'Describe','Context','Name' -Width 0 
+            }
         }
 
     } | Export-Document -Path $Path -Format $Format
