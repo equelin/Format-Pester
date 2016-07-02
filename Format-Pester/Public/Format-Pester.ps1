@@ -13,6 +13,14 @@ Function Format-Pester {
         [String[]]$Format
     )
 
+    $exportParams = @{}
+    if($Format -eq 'HTML')
+    {
+        $exportParams += @{
+            Options = @{ NoPageLayoutStyle = $true }
+        }
+    }
+
     Document 'Pester_Results' {
 
         # Global options
@@ -56,5 +64,5 @@ Function Format-Pester {
             Table -Columns Describe,Context,Name -Headers 'Describe','Context','Name' -Width 0
         }
 
-    } | Export-Document -Path $Path -Format $Format
+    } | Export-Document -Path $Path -Format $Format @exportParams
 }
