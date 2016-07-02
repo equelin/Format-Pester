@@ -113,6 +113,23 @@ Describe 'Format-Pester' {
         }
     }
 
+    Context 'Format Word and HTML' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+
+        Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
+
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format Word, HTML} | Should not throw
+        }
+
+        it 'should have called export document without NoPageLayoutStyle option' {
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {!$options.NoPageLayoutStyle}
+        }
+    }
 
     Context 'BaseFileName not specified' {
         $mockedTestResult = [PSCustomObject] @{

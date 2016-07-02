@@ -14,7 +14,7 @@ Function Format-Pester {
     )
 
     $exportParams = @{}
-    if($Format -eq 'HTML')
+    if($Format.Count -eq 1 -and $Format -eq 'HTML')
     {
         $exportParams += @{
             Options = @{ NoPageLayoutStyle = $true }
