@@ -140,6 +140,31 @@ Describe 'Format-Pester' {
         }
     }
 
+    Context 'BaseFileName specified' {
+        $mockedTestResult = [PSCustomObject] @{
+            PassedCount =1
+            FailedCount =1
+            TotalCount =2
+            TestResult = @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+    
+            )
+        }
+        $logFolder = 'TestDrive:\logs'
+        if(!(Test-path $logFolder))
+        {
+            md $logFolder > $null
+        }
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -BaseFileName TestBaseName -Format HTML} | Should not throw
+        }
+        # does not exist in this version
+        it 'should have used the test base name' {
+            join-path TestDrive:\logs TestBaseName.Html | should exist
+        }
+    }
+
     Context 'BaseFileName not specified' {
         $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
             -testResult @(
