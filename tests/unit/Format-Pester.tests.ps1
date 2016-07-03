@@ -65,6 +65,26 @@ Describe 'Format-Pester' {
         $Global:PSDefaultParameterValues = $script:OriginalPSDefaultParameterValues
     }
 
+    Context 'BaseFileName specified' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+            
+        $logFolder = 'TestDrive:\logs'
+        if(!(Test-path $logFolder))
+        {
+            md $logFolder > $null
+        }
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -BaseFileName TestBaseName -Format HTML} | Should not throw
+        }
+        # does not exist in this version
+        it 'should have used the test base name' {
+            join-path TestDrive:\logs TestBaseName.Html | should exist
+        }
+    }
     Context 'BaseFileName not specified' {
         $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
             -testResult @(

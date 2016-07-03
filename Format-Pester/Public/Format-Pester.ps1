@@ -10,10 +10,12 @@ Function Format-Pester {
         [String]$Path = (Get-Location -PSProvider FileSystem),
         [Parameter(Mandatory = $true,HelpMessage = 'PScribo export format')]
         [ValidateSet('Text','Word','HTML')]
-        [String[]]$Format
+        [String[]]$Format,
+        [ValidateNotNullorEmpty()]
+        [string] $BaseFileName='Pester_Results'
     )
 
-    Document 'Pester_Results' {
+    Document $BaseFileName {
         $defaultColumns = @('TotalCount','PassedCount','FailedCount','SkippedCount','PendingCount')
         $defaultHeaders = 'Total Tests','Passed Tests','Failed Tests','Skipped Tests','Pending Tests'
 
