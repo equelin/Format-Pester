@@ -42,6 +42,14 @@ Function Format-Pester {
         [string] $BaseFileName='Pester_Results'
     )
 
+    $exportParams = @{}
+    if($Format.Count -eq 1 -and $Format -eq 'HTML')
+    {
+        $exportParams += @{
+            Options = @{ NoPageLayoutStyle = $true }
+        }
+    }
+
     Document $BaseFileName {
 
         # Global options
@@ -85,5 +93,5 @@ Function Format-Pester {
             Table -Columns Describe,Context,Name -Headers 'Describe','Context','Name' -Width 0
         }
 
-    } | Export-Document -Path $Path -Format $Format
+    } | Export-Document -Path $Path -Format $Format @exportParams
 }
