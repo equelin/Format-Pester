@@ -42,6 +42,14 @@ Function Format-Pester {
         [string] $BaseFileName='Pester_Results'
     )
 
+    $exportParams = @{}
+    if($Format.Count -eq 1 -and $Format -eq 'HTML')
+    {
+        $exportParams += @{
+            Options = @{ NoPageLayoutStyle = $true }
+        }
+    }
+
     Document $BaseFileName {
         $defaultColumns = @('TotalCount','PassedCount','FailedCount','SkippedCount','PendingCount')
         $defaultHeaders = 'Total Tests','Passed Tests','Failed Tests','Skipped Tests','Pending Tests'
@@ -101,5 +109,5 @@ Function Format-Pester {
             }
         }
 
-    } | Export-Document -Path $Path -Format $Format
+    } | Export-Document -Path $Path -Format $Format @exportParams
 }
