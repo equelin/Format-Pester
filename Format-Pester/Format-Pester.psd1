@@ -12,7 +12,7 @@
 RootModule = 'Format-Pester.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.1.0'
 
 # ID used to uniquely identify this module
 GUID = 'daa609a5-1293-4f62-9467-1a120c529e87'
@@ -24,7 +24,7 @@ Author = 'Erwan Quelin'
 #CompanyName = 'Unknown'
 
 # Copyright statement for this module
-Copyright = '(c) 2016 Erwan Quelin. All rights reserved under MIT license.'
+Copyright = 'Copyright (c) 2016 Erwan Quélin and the community. All rights reserved under MIT license.'
 
 # Description of the functionality provided by this module
 Description = 'Powershell module for documenting Pester s results.'

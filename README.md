@@ -47,6 +47,10 @@ This command will document the results of the pester's tests. Documents will be 
 
 - Format-Pester
 
+# Contributors
+
+- Travis Plunk - [GitHub](https://github.com/TravisEz13) - [Twitter](https://twitter.com/TravisPlunk)
+
 # Author
 
 **Erwan Quélin**
@@ -55,6 +59,6 @@ This command will document the results of the pester's tests. Documents will be 
 
 # License
 
-Copyright 2016 Erwan Quelin.
+Copyright 2016 Erwan Quelin and the community.
 
 Licensed under the MIT License
