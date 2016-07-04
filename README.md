@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/36q06wp2c4vwfu7w/branch/master?svg=true)](https://ci.appveyor.com/project/equelin/format-pester/branch/master)
+
 # Format-Pester
 Powershell module for documenting Pester's results.
 
