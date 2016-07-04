@@ -1,4 +1,31 @@
 Function Format-Pester {
+
+  <#
+      .SYNOPSIS
+      Document Pester's tests results into the selected format (HTML, Word, Text).
+      .DESCRIPTION
+      Document Pester's tests results into the selected format (HTML, Word, Text).
+      .NOTES
+      Written by Erwan Quelin and the community under Apache licence
+      .LINK
+      https://github.com/equelin/Format-Pester
+      .PARAMETER PesterResult
+      Specifies the Pester results Object
+      .PARAMETER Path
+      Specifies where the documents will be stored. Default is the path where is executed this function.
+      .PARAMETER Format
+      Specifies the document format. Might be:
+      - Text
+      - HTML
+      - Word
+      .PARAMETER BaseFileName
+      Specifies the document name. Default is 'Pester_Results'
+      .EXAMPLE
+      Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
+
+      This command will document the results of the pester's tests. Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
+  #>
+
     [CmdletBinding()]
     [OutputType([System.IO.FileInfo])]
     Param(
