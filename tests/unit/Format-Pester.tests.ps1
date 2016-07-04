@@ -22,6 +22,7 @@ function New-MockedTestResult
 
     return $testResult                
 }
+
 function New-MockedTestResultCollection
 {
     param(
@@ -64,6 +65,80 @@ Describe 'Format-Pester' {
     AfterAll{
         $Global:PSDefaultParameterValues = $script:OriginalPSDefaultParameterValues
     }
+    
+    Context 'Format HTML' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+
+        Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
+
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format HTML} | Should not throw
+        }
+
+        it 'should have called export document with NoPageLayoutStyle option' {
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {
+                $true -eq $options.NoPageLayoutStyle
+            }
+        }
+    }
+
+    Context 'Format Word' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+
+        Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
+
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format Word} | Should not throw
+        }
+
+        it 'should have called export document without NoPageLayoutStyle option' {
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {!$options.NoPageLayoutStyle}
+        }
+    }
+
+    Context 'Format Text' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+
+        Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
+
+        it 'Should not throw'  {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format Text} | Should not throw
+        }
+
+        it 'should have called export document without NoPageLayoutStyle option' {
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {!$options.NoPageLayoutStyle} 
+        }
+    }
+
+    Context 'Format Word and HTML' {
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+            -testResult @(
+                New-MockedTestResult -Result Passed
+                New-MockedTestResult -Result Failed
+            )
+
+        Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester 
+
+        it 'Should not throw' {
+            {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format Word, HTML} | Should not throw
+        }
+
+        it 'should have called export document without NoPageLayoutStyle option' {
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {!$options.NoPageLayoutStyle}
+        }
+    }
 
     Context 'BaseFileName specified' {
         $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
@@ -85,6 +160,7 @@ Describe 'Format-Pester' {
             join-path TestDrive:\logs TestBaseName.Html | should exist
         }
     }
+
     Context 'BaseFileName not specified' {
         $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
             -testResult @(
@@ -140,6 +216,7 @@ Describe 'Format-Pester' {
         }
         
         # Pending test due to https://github.com/equelin/Format-Pester/issues/1
+
         it 'should not throw when all results are failed' {
             {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format HTML} | should not throw
         }
