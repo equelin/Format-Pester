@@ -9,7 +9,7 @@ function New-MockedTestResult
     $script:mockedTestResultCount++;
     $testResult = [PSCustomObject] @{
                     Describe ="Mocked Describe ${script:mockedTestResultCount}"
-                    Context = $null
+                    Context = 'Test Context'
                     Name = "Mocked test ${script:mockedTestResultCount}"
                     Result = $Result
                     Time = New-TimeSpan -Seconds 1
