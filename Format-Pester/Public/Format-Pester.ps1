@@ -26,7 +26,7 @@ Function Format-Pester {
       This command will document the results of the pester's tests. Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
   #>
 
-    [CmdletBinding()]
+    [CmdletBinding( DefaultParameterSetName ='AllResultsParamSet' )]
     [OutputType([System.IO.FileInfo])]
     Param(
         [Parameter(Mandatory = $true,Position = 0,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True,HelpMessage = 'Pester results Object')]
@@ -39,7 +39,16 @@ Function Format-Pester {
         [ValidateSet('Text','Word','HTML')]
         [String[]]$Format,
         [ValidateNotNullorEmpty()]
-        [string] $BaseFileName='Pester_Results'
+        [string] $BaseFileName='Pester_Results',
+        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
+		[Switch]$PassedOnly,
+		[Parameter(Mandatory = $false,ParameterSetName = 'FailedOnlyParamSet')]
+		[Switch]$FailedOnly,
+		[Parameter(Mandatory = $false)]
+		[Switch]$SkipTableOfContent,
+		[Parameter(Mandatory = $false)]
+		[Switch]$SkipSummary
+		
     )
 
     $exportParams = @{}
@@ -63,51 +72,95 @@ Function Format-Pester {
         Style -Name Failed -Color White -BackgroundColor Red
         Style -Name Other -Color White -BackgroundColor Gray
 
-        # Table of content
-        TOC -Name 'Table of Contents'
+		If ( -not $SkipTableOfContent.ispresent) {
+		
+            # Table of content
+            TOC -Name 'Table of Contents'
+		
+		}
         
-        # Results Summary
-        $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount} |Sort-Object -Property FailedCount -Descending
-        Section -Style Heading2 'Results summary' {
+        If ( -not $SkipSummary.IsPresent) {
+        
+            # Results Summary
+            $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount} |Sort-Object -Property FailedCount -Descending
+            Section -Style Heading2 'Results summary' {
 
-            $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
-            $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
-            $ValidResults | Set-Style -Style 'Failed' -Property 'FailedCount'
-            $ValidResults | Set-Style -Style 'Other' -Property 'SkippedCount'
-            $ValidResults | Set-Style -Style 'Other' -Property 'PendingCount'
-            $ValidResults | Table -Columns $defaultColumns -Headers $defaultHeaders   
-
-        }
-        $counter = 1
-
-        # Errors details - Grouped by Describe
-        foreach($resultsGroup in $PesterResult.TestResult | Where-Object {$_.Result -eq 'Failed'} |Group-Object -Property Describe )
-        {
-            $results = $resultsGroup.Group
-            $name = $resultsGroup.Name
-
-            Section -Style Heading2 "$counter. Errors details:  $name" {
-            
-                Paragraph "$($results.Count) test(s) failed:"
-
-                $results | 
-                Table -Columns Context,Name,FailureMessage -Headers 'Context','Name','Failure Message' -Width 0 
-        }
-            $counter++
-        }
-
-        # Success details
-        $results = $PesterResult.TestResult | Where-Object {$_.Result -ne 'Failed'}
-        if($results)
-        {
-            Section -Style Heading2 "Success details" {
-                
-                Paragraph "$($results.Count) test(s) passed:"
-
-                $results | 
-                Table -Columns Describe, Context,Name -Headers 'Describe','Context','Name' -Width 0 
+                $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
+                $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
+                $ValidResults | Set-Style -Style 'Failed' -Property 'FailedCount'
+                $ValidResults | Set-Style -Style 'Other' -Property 'SkippedCount'
+                $ValidResults | Set-Style -Style 'Other' -Property 'PendingCount'
+                $ValidResults | Table -Columns $defaultColumns -Headers $defaultHeaders
+                    
             }
+            
         }
-
+        
+        $Head2counter = 1
+        $Head3counter = 1
+        
+        $PesterTestsResults = $PesterResult | Select-Object -ExpandProperty TestResult
+        
+        $FailedPesterTestsResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq 'Failed' }
+        [String[]]$FailedHeaders2 = $FailedPesterTestsResults | Select Describe -Unique
+        
+        $FailedPesterTestsResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq 'Passed' }
+        
+        
+        If (-not $PassedOnly.IsPresent -and $PesterResult.FailedCount -gt 0)
+        {
+            
+            # Failed tests results details - Grouped by Describe
+            foreach ( $Header2 in $FailedHeaders2 )
+            {
+                
+                $results = $resultsGroup.Group
+                
+                Section -Style Heading2 "$Head2counter. Error details"
+                
+                # Failed tests results details - Grouped by Context
+                foreach ($resultsGroup in $PesterResult.TestResult | Where-Object { $_.Result -eq 'Failed' } | Group-Object -Property Describe)
+                {
+                    
+                    $name = $resultsGroup.Name
+                    
+                    $SubHeader = "{0}{1}" -f $Head2counter, $Head3counter
+                    
+                    Section -Style Heading3 "$Head2counter. Errors details:  $name" {
+                        
+                        Paragraph "$($results.Count) test(s) failed:"
+                        
+                        $results |
+                        Table -Columns Context, Name, FailureMessage -Headers 'Context', 'Name', 'Failure Message' -Width 0
+                    }
+                    
+                    $Head3Counter++
+                    
+                }
+                
+                $Head2counter++
+                
+            }
+            
+        }
+        
+        If (-not $FailedOnly.IsPresent)
+        {
+            
+            # Success tests results details
+            $results = $PesterResult.TestResult | Where-Object { $_.Result -eq 'Passed' }
+            if ($results)
+            {
+                Section -Style Heading2 "$Head2counter. Success details" {
+                    
+                    Paragraph "$($results.Count) test(s) passed:"
+                    
+                    $results |
+                    Table -Columns Describe, Context, Name -Headers 'Describe', 'Context', 'Name' -Width 0
+                }
+            }
+            
+        }
+        
     } | Export-Document -Path $Path -Format $Format @exportParams
 }
