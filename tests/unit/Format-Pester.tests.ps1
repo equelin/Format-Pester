@@ -220,20 +220,20 @@ Describe 'Unit test for Format-Pester' {
         it 'should not throw when all results are failed' {
             {$mockedTestResult | Format-Pester -Path TestDrive:\logs -Format HTML} | should not throw
         }
-        
+
     }
-    
+
     Context 'Parameters checking' {
-        
+
         $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
                                                            -testResult @(
-            New-MockedTestResult - Result Failed
-            New-MockedTestResult - Result Failed
+            New-MockedTestResult -Result Passed
+            New-MockedTestResult -Result Failed
         )
-        
+
         it 'should throw when parameters from the different parameters sets provided' {
             { $mockedTestResult | Format-Pester -Path TestDrive:\logs -Format HTML -PassedOnly -FailedOnly } | should throw
         }
-        
+
     }
 }
