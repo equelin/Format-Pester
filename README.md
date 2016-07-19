@@ -3,7 +3,7 @@
 # Format-Pester
 Powershell module for documenting Pester's results.
 
-![](./img/Format-Pester.jpg)
+![](./img/format-pester.png)
 
 All the formating work is done by the module PScribo.
 
