@@ -50,6 +50,7 @@ This command will document the results of the pester's tests. Documents will be 
 # Contributors
 
 - Travis Plunk - [GitHub](https://github.com/TravisEz13) - [Twitter](https://twitter.com/TravisPlunk)
+- Wojciech Sciesinski - [GitHub](https://github.com/it-praktyk) - [Twitter](https://twitter.com/ITpraktyk)
 
 # Author
 
