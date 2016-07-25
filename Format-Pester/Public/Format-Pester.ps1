@@ -44,6 +44,9 @@ Function Format-Pester {
     .PARAMETER SkipSummary
     Select to skip adding table with test summaries (sums of numbers passed/failed/etc. tests).
     
+    .PARAMETER TableWidth
+    Set 
+    
     .EXAMPLE
     Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
 
@@ -157,14 +160,14 @@ Function Format-Pester {
             
             # Results Summary
             $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount } | Sort-Object -Property FailedCount -Descending
-            Section -Style Heading2 'Results summary' {
+            Section -Style Heading2 'Results summary' - -ScriptBlock {
                 
                 $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
                 $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
                 $ValidResults | Set-Style -Style 'Failed' -Property 'FailedCount'
                 $ValidResults | Set-Style -Style 'Other' -Property 'SkippedCount'
                 $ValidResults | Set-Style -Style 'Other' -Property 'PendingCount'
-                $ValidResults | Table -Columns $SummaryColumnsData -Headers $SummaryColumnsHeaders
+                $ValidResults | Table -Columns $SummaryColumnsData -Headers $SummaryColumnsHeaders -Width 90
                 
             }
             
@@ -174,8 +177,6 @@ Function Format-Pester {
             
             #Variables used to create numbers for TOC and subsections
             $Head1Counter = 1
-            $Head2counter = 1
-            $Head3counter = 1
             
             #Expanding Pester summary to receive all tests results
             $PesterTestsResults = $PesterResult | Select-Object -ExpandProperty TestResult
@@ -187,7 +188,8 @@ Function Format-Pester {
                 $EvaluateResults += 'Failed'
                 
             }
-            ElseIf ((-not $FailedOnly.IsPresent) -and $PesterResult.PassedCount -gt 0) {
+            
+            If ((-not $FailedOnly.IsPresent) -and $PesterResult.PassedCount -gt 0) {
                 
                 $EvaluateResults += 'Passed'
                 
@@ -199,13 +201,31 @@ Function Format-Pester {
                 
             }
             
+            Write-Verbose $EvaluateResults
+            
             foreach ($CurrentResultType in $EvaluateResults) {
-                                
+                
+                $VerboseMsgMainLoop = 'Evaluating test results for'
+                
+                [System.String]$MessageText = "{0} {1} " -f $VerboseMsgMainLoop, $CurrentResultType
+                
+                Write-Verbose -Message $MessageText
+                
+                $Head2counter = 1
+                
+                $Head3counter = 1
+                
                 switch ($CurrentResultType) {
                     
                     'Passed' {
                         
                         $Header1TitlePart = 'Success details'
+                        
+                        $Header2TitlePart = 'Success details by Describe block: '
+                        
+                        $Header3TitlePart = 'Success details by Context block: '
+                        
+                        $VerboseMsgHeader2 = 'Found passed in Decribe blocks: '
                         
                         $TestsResultsColumnsData = @('Describe', 'Context', 'Name')
                         
@@ -217,21 +237,25 @@ Function Format-Pester {
                         
                         $Header1TitlePart = 'Error details'
                         
+                        $Header2TitlePart = 'Errors details by Describe block: '
+                        
+                        $Header3TitlePart = 'Errors details by Context block: '
+                        
+                        $VerboseMsgHeader2Part = 'Found failed in Decribe blocks: '
+                        
+                        $VerboseMsgHeader3Part = 'Found failed in Context blocks: '
+                        
                         $TestsResultsColumnsData = @('Context', 'Name', 'FailureMessage')
                         
                         $TestsResultsColumnsHeaders = @('Context', 'Name', 'Failure Message')
-                        
-                        
                         
                     }
                     
                 }
                 
-                
-                #Section to prepare report for failed tests
                 If (-not $PassedOnly.IsPresent -and $PesterResult.FailedCount -gt 0) {
                     
-                    $FailedPesterTestsResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq 'Failed' }
+                    $CurrentPesterTestResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq $CurrentResultType }
                     
                     If ($GroupResultsBy -eq 'Result') {
                         
@@ -239,8 +263,8 @@ Function Format-Pester {
                         
                         Section -Name $Header1Title -Style Heading1   {
                             
-                            $FailedPesterTestsResults |
-                            Table -Columns Context, Name, FailureMessage -Headers 'Context', 'Name', 'Failure Message' -Width 0
+                            $CurrentPesterTestResults |
+                            Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
                             
                         }
                         
@@ -252,40 +276,46 @@ Function Format-Pester {
                         
                         Section -Name "$Head1Counter.`t Errors" -Style Heading1 -ScriptBlock {
                             
-                            #Get unique 'Describe' from failed Pester results
-                            [Array]$FailedHeaders2 = $FailedPesterTestsResults | Select Describe -Unique
+                            #Get unique 'Describe' from Pester results
+                            [Array]$FailedHeaders2 = $CurrentPesterTestResults | Select Describe -Unique
                             
-                            # Failed tests results details - Grouped by Describe
+                            # Tests results details - Grouped by Describe
                             foreach ($Header2 in $FailedHeaders2) {
                                 
-                                Write-Verbose -Message "Found failed in Decribe blocks: $FailedHeaders2"
+                                [String]$MessageText = "{0}{1} " -f $VerboseMsgHader2Part, $Header2
+                                
+                                Write-Verbose -Message $MessageText
                                 
                                 $SubHeader2Number = "{0}.{1}" -f $Head1Counter, $Head2counter
                                 
-                                [String]$Header2Title = "{0}.`t Errors details by Describe block: {1}" -f $SubHeader2Number,  $($Header2.Describe)
+                                [String]$Header2Title = "{0}.`t {1}{2}" -f $SubHeader2Number, $Header2TitlePart, $($Header2.Describe)
                                 
                                 Section -Name $Header2Title -Style Heading2  {
                                     
-                                    $FailedPesterTestsResults2 = $FailedPesterTestsResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
+                                    $CurrentPesterTestResults2 = $CurrentPesterTestResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
                                     
                                     If ($GroupResultsBy -eq 'Result-Describe-Context') {
                                         
-                                        [Array]$FailedHeaders3 = $FailedPesterTestsResults2 | Select Context -Unique
+                                        [Array]$FailedHeaders3 = $CurrentPesterTestResults2 | Select Context -Unique
                                         
                                         foreach ($Header3 in $FailedHeaders3) {
                                             
-                                            $FailedPesterTestsResults3 = $FailedPesterTestsResults2 | Where-Object -FilterScript { $_.Context -eq $Header3.Context }
+                                            [String]$MessageText = "{0}{1} " -f $VerboseMsgHader3Part, $Header3
                                             
-                                            $SubHeader3Number = "{0}.{1}.{2}.`t" -f $Head1Counter, $Head2counter, $Head3counter
+                                            Write-Verbose -Message $MessageText
+                                                                                        
+                                            $CurrentPesterTestResults3 = $CurrentPesterTestResults2 | Where-Object -FilterScript { $_.Context -eq $Header3.Context }
                                             
-                                            [String]$Header3Title = "{0}.`t Errors details by Context block: {1}" -f $SubHeader3Number, $($Header3.Context)
+                                            $SubHeader3Number = "{0}.{1}.{2}" -f $Head1Counter, $Head2counter, $Head3counter
+                                            
+                                            [String]$Header3Title = "{0}.`t {1} {2}" -f $SubHeader3Number, $Header3TitlePart, $($Header3.Context)
                                             
                                             Section -Name $Header3Title -Style Heading3 -ScriptBlock {
                                                 
                                                 #Paragraph "$($results.Count) test(s) failed:"
                                                 
-                                                $FailedPesterTestsResults3 |
-                                                Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 0
+                                                $CurrentPesterTestResults3 |
+                                                Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
                                             }
                                             
                                             $Head3Counter++
@@ -295,8 +325,8 @@ Function Format-Pester {
                                     } #$GroupResultsBy -eq 'Result-Describe-Context'
                                     Else {
                                         
-                                        $FailedPesterTestsResults2 |
-                                        Table -Columns Context, Name, FailureMessage -Headers 'Context', 'Name', 'Failure Message' -Width 0
+                                        $CurrentPesterTestResults2 |
+                                        Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
                                         
                                     }
                                     
@@ -310,89 +340,11 @@ Function Format-Pester {
                         
                         $Head1Counter++
                         
-                    } #end $GroupResultsBy -ne 'Result' for Failed
-                    
-                } #end of creating section of failed tests details
-                
-                $Head3counter = 1
-                
-            }
-            
-            #Section to prepare report for passed tests
-            If (-not $FailedOnly.IsPresent -and $PesterResult.PassedCount -gt 0) {
-                
-                $PassedPesterTestsResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq 'Passed' }
-                
-                If ($GroupResultsBy -eq 'Result') {
-                    
-                    
-                    Section -Style Heading1 "$Head1counter. Success details" {
-                        
-                        $PassedPesterTestsResults |
-                        Table -Columns Describe, Context, Name -Headers 'Describe', 'Context', 'Name' -Width 0
-                        
-                    }
+                    } #end $GroupResultsBy -ne 'Result'
                     
                 }
-                Else {
-                    
-                    Section -Style Heading1 "$Head1Counter.`t Success" {
-                        
-                        #Get unique 'Describe' from failed Pester results
-                        [Array]$PassedHeaders2 = $PassedPesterTestsResults | Select Describe -Unique
-                        
-                        # Failed tests results details - Grouped by Describe
-                        foreach ($Header2 in $PassedHeaders2) {
-                            
-                            Write-Verbose -Message "Found success in Decribe blocks: $PassedHeaders2"
-                            
-                            $SubHeader2Number = "{0}.{1}.`t" -f $Head1Counter, $Head2counter
-                            
-                            Section -Style Heading2 "$SubHeader2Number Success details by Describe block: $($Header2.Describe)" {
-                                
-                                $PassedPesterTestsResults2 = $PassedPesterTestsResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
-                                
-                                If ($GroupResultsBy -eq 'Result-Describe-Context') {
-                                    
-                                    [Array]$PassedHeaders3 = $PassedPesterTestsResults2 | Select Context -Unique
-                                    
-                                    foreach ($Header3 in $PassedHeaders3) {
-                                        
-                                        $PassedPesterTestsResults3 = $PassedPesterTestsResults2 | Where-Object -FilterScript { $_.Context -eq $Header3.Context }
-                                        
-                                        $SubHeader3Number = "{0}.{1}.{2}.`t" -f $Head1Counter, $Head2counter, $Head3counter
-                                        
-                                        Section -Style Heading3 "$SubHeader3Number Success details by Context block: $($Header3.Context)" {
-                                            
-                                            #Paragraph "$($results.Count) test(s) failed:"
-                                            
-                                            $PassedPesterTestsResults3 |
-                                            Table -Columns Describe, Context, Name -Headers 'Describe', 'Context', 'Name' -Width 0
-                                        }
-                                        
-                                        $Head3Counter++
-                                        
-                                    }
-                                    
-                                } #$GroupResultsBy -eq 'Result-Describe-Context'
-                                Else {
-                                    
-                                    $PassedPesterTestsResults2 |
-                                    Table -Columns Describe, Context, Name -Headers 'Describe', 'Context', 'Name' -Width 0
-                                    
-                                }
-                                
-                            }
-                            
-                            $Head2counter++
-                            
-                        } #end foreach ($Header2 in $PassedHeaders2)
-                        
-                    }
-                    
-                } #end $GroupResultsBy -ne 'Result' for Passed
                 
-            } #end of creating section of passed tests details
+            }
             
         }
         
