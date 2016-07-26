@@ -70,6 +70,7 @@ Function Format-Pester {
     TODO
     - add alligning of width for tables if grouping in used 
     - Pester test need to be updated - yes, post factum TDD ;-)
+    - Format of verbose message need to be corrected
     
     
   #>
@@ -234,9 +235,9 @@ Function Format-Pester {
                         
                         $Header3TitlePart = $LocalizedStrings.msg12
                         
-                        $VerboseMsgHeader2 = $LocalizedStrings.msg13
+                        $VerboseMsgHeader2Part = $LocalizedStrings.msg13
                         
-                        $VerboseMsgHeader3 = $LocalizedStrings.msg14
+                        $VerboseMsgHeader3Part = $LocalizedStrings.msg14
                         
                         #This variable can't be translated
                         $TestsResultsColumnsData = @('Describe', 'Context', 'Name')
