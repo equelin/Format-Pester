@@ -1,3 +1,4 @@
+Import-Module Format-Pester
 Function Format-Pester {
 <#
     .SYNOPSIS
@@ -44,8 +45,9 @@ Function Format-Pester {
     .PARAMETER SkipSummary
     Select to skip adding table with test summaries (sums of numbers passed/failed/etc. tests).
     
-    .PARAMETER TableWidth
-    Set 
+    .PARAMETER Language
+    Select language what need to be used for generated reports. 
+    By default language is detected by Get-Culture with fallback to en-US if translation is not used.
     
     .EXAMPLE
     Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
@@ -73,7 +75,7 @@ Function Format-Pester {
   #>
     
     [CmdletBinding(DefaultParameterSetName = 'AllParamSet')]
-    [OutputType([System.IO.FileInfo])]
+    [OutputType([IO.FileInfo])]
     Param (
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'PassedOnlyParamSet')]
@@ -117,21 +119,26 @@ Function Format-Pester {
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
-        [Switch]$SkipSummary
+        [Switch]$SkipSummary,
+        [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
+        [String]$Language=$($(Get-Culture).Name)
         
     )
+    
+    
+    Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language
+    
+    #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
+    #$LocalizedStrings 
     
     $exportParams = @{ }
     if ($Format.Count -eq 1 -and $Format -eq 'HTML') {
         $exportParams += @{
             Options = @{ NoPageLayoutStyle = $true }
         }
-    }
-    
-    If ($SummaryOnly.IsPresent) {
-        
-        $SkipTableOfContent = $true
-        
     }
     
     Document $BaseFileName {
@@ -142,15 +149,20 @@ Function Format-Pester {
         If (-not $SkipTableOfContent.ispresent) {
             
             # Table of content
-            TOC -Name 'Table of Contents'
+            [String]$TOCName = $LocalizedStrings.msg01
+            
+            TOC -Name $TOCName
             
         }
         
         If (-not $SkipSummary.IsPresent) {
             
             # Columns used for the summary table
+            
+            #This variable can't be translated
             $SummaryColumnsData = @('TotalCount', 'PassedCount', 'FailedCount', 'SkippedCount', 'PendingCount')
-            $SummaryColumnsHeaders = 'Total Tests', 'Passed Tests', 'Failed Tests', 'Skipped Tests', 'Pending Tests'
+            
+            $SummaryColumnsHeaders = @($LocalizedStrings.msg02, $LocalizedStrings.msg03, $LocalizedStrings.msg04, $LocalizedStrings.msg05, $LocalizedStrings.msg06)
             
             # Style definitions used for the summary table
             Style -Name Total -Color White -BackgroundColor Blue
@@ -159,8 +171,11 @@ Function Format-Pester {
             Style -Name Other -Color White -BackgroundColor Gray
             
             # Results Summary
+            
+            $ResultsSummaryTitle = $LocalizedStrings.msg07
+            
             $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount } | Sort-Object -Property FailedCount -Descending
-            Section -Style Heading2 'Results summary' - -ScriptBlock {
+            Section -Name $ResultsSummaryTitle -Style Heading2  -ScriptBlock {
                 
                 $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
                 $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
@@ -201,13 +216,64 @@ Function Format-Pester {
                 
             }
             
-            Write-Verbose $EvaluateResults
+            #Write-Verbose $EvaluateResults.
             
             foreach ($CurrentResultType in $EvaluateResults) {
                 
-                $VerboseMsgMainLoop = 'Evaluating test results for'
+                switch ($CurrentResultType) {
+                    
+                    'Passed' {
+                        
+                        $CurrentResultTypeLocalized = $LocalizedStrings.msg09
+                        
+                        $Head1SectionTitle = $LocalizedStrings.msg25
+                        
+                        $Header1TitlePart = $LocalizedStrings.msg10
+                        
+                        $Header2TitlePart = $LocalizedStrings.msg11
+                        
+                        $Header3TitlePart = $LocalizedStrings.msg12
+                        
+                        $VerboseMsgHeader2 = $LocalizedStrings.msg13
+                        
+                        $VerboseMsgHeader3 = $LocalizedStrings.msg14
+                        
+                        #This variable can't be translated
+                        $TestsResultsColumnsData = @('Describe', 'Context', 'Name')
+                        
+                        $TestsResultsColumnsHeaders = @($LocalizedStrings.msg15, $LocalizedStrings.msg16, $LocalizedStrings.msg17)
+                        
+                    }
+                    
+                    
+                    'Failed' {
+                        
+                        $CurrentResultTypeLocalized = $LocalizedStrings.msg18
+                        
+                        $Head1SectionTitle = $LocalizedStrings.msg26
+                        
+                        $Header1TitlePart = $LocalizedStrings.msg19
+                        
+                        $Header2TitlePart = $LocalizedStrings.msg20
+                        
+                        $Header3TitlePart = $LocalizedStrings.msg21
+                        
+                        $VerboseMsgHeader2Part = $LocalizedStrings.msg22
+                        
+                        $VerboseMsgHeader3Part = $LocalizedStrings.msg23
+                        
+                        #This variable can't be translated
+                        $TestsResultsColumnsData = @('Context', 'Name', 'FailureMessage')
+                        
+                        $TestsResultsColumnsHeaders = @($LocalizedStrings.msg16, $LocalizedStrings.msg17, $LocalizedStrings.msg24)
+                        
+                    }
+                    
+                }
                 
-                [System.String]$MessageText = "{0} {1} " -f $VerboseMsgMainLoop, $CurrentResultType
+                $VerboseMsgMainLoop = $LocalizedStrings.msg08
+                
+                [String]$MessageText = "{0} {1} " -f $VerboseMsgMainLoop, $CurrentResultTypeLocalized
                 
                 Write-Verbose -Message $MessageText
                 
@@ -215,43 +281,7 @@ Function Format-Pester {
                 
                 $Head3counter = 1
                 
-                switch ($CurrentResultType) {
-                    
-                    'Passed' {
-                        
-                        $Header1TitlePart = 'Success details'
-                        
-                        $Header2TitlePart = 'Success details by Describe block: '
-                        
-                        $Header3TitlePart = 'Success details by Context block: '
-                        
-                        $VerboseMsgHeader2 = 'Found passed in Decribe blocks: '
-                        
-                        $TestsResultsColumnsData = @('Describe', 'Context', 'Name')
-                        
-                        $TestsResultsColumnsHeaders = @('Describe', 'Context', 'Name')
-                        
-                    }
-                    
-                    'Failed' {
-                        
-                        $Header1TitlePart = 'Error details'
-                        
-                        $Header2TitlePart = 'Errors details by Describe block: '
-                        
-                        $Header3TitlePart = 'Errors details by Context block: '
-                        
-                        $VerboseMsgHeader2Part = 'Found failed in Decribe blocks: '
-                        
-                        $VerboseMsgHeader3Part = 'Found failed in Context blocks: '
-                        
-                        $TestsResultsColumnsData = @('Context', 'Name', 'FailureMessage')
-                        
-                        $TestsResultsColumnsHeaders = @('Context', 'Name', 'Failure Message')
-                        
-                    }
-                    
-                }
+                
                 
                 If (-not $PassedOnly.IsPresent -and $PesterResult.FailedCount -gt 0) {
                     
@@ -262,6 +292,8 @@ Function Format-Pester {
                         [String]$Header1Title = "{0}.`t {1}" -f $Head1counter, $Header1TitlePart
                         
                         Section -Name $Header1Title -Style Heading1   {
+                            
+                            Write-Host $TestsResultsColumnsHeaders
                             
                             $CurrentPesterTestResults |
                             Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
@@ -274,7 +306,7 @@ Function Format-Pester {
                     
                     Else {
                         
-                        Section -Name "$Head1Counter.`t Errors" -Style Heading1 -ScriptBlock {
+                        Section -Name "$Head1Counter.`t $Head1SectionTitle " -Style Heading1 -ScriptBlock {
                             
                             #Get unique 'Describe' from Pester results
                             [Array]$FailedHeaders2 = $CurrentPesterTestResults | Select Describe -Unique
@@ -282,15 +314,15 @@ Function Format-Pester {
                             # Tests results details - Grouped by Describe
                             foreach ($Header2 in $FailedHeaders2) {
                                 
-                                [String]$MessageText = "{0}{1} " -f $VerboseMsgHader2Part, $Header2
+                                [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader2Part, $($Header2.Describe)
                                 
                                 Write-Verbose -Message $MessageText
                                 
                                 $SubHeader2Number = "{0}.{1}" -f $Head1Counter, $Head2counter
                                 
-                                [String]$Header2Title = "{0}.`t {1}{2}" -f $SubHeader2Number, $Header2TitlePart, $($Header2.Describe)
+                                [String]$Header2Title = "{0}.`t {1} {2}" -f $SubHeader2Number, $Header2TitlePart, $($Header2.Describe)
                                 
-                                Section -Name $Header2Title -Style Heading2  {
+                                Section -Name $Header2Title -Style Heading2 -ScriptBlock  {
                                     
                                     $CurrentPesterTestResults2 = $CurrentPesterTestResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
                                     
@@ -300,10 +332,10 @@ Function Format-Pester {
                                         
                                         foreach ($Header3 in $FailedHeaders3) {
                                             
-                                            [String]$MessageText = "{0}{1} " -f $VerboseMsgHader3Part, $Header3
+                                            [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader3Part, $($Header3.Context)
                                             
                                             Write-Verbose -Message $MessageText
-                                                                                        
+                                            
                                             $CurrentPesterTestResults3 = $CurrentPesterTestResults2 | Where-Object -FilterScript { $_.Context -eq $Header3.Context }
                                             
                                             $SubHeader3Number = "{0}.{1}.{2}" -f $Head1Counter, $Head2counter, $Head3counter
