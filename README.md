@@ -16,7 +16,7 @@ More examples you can find [here](/examples/).
 
 # Requirements
 
-- Powershell
+- Powershell v.5.x
 - [Pester](https://github.com/pester/Pester)
 - [PScribo](https://github.com/iainbrighton/PScribo)
 
@@ -53,7 +53,7 @@ This command will document the results of the Pester's tests. Documents will be 
 
 # Available functions
 
-- Format-Pester
+- [Format-Pester](/doc/Format-Pester.md)
 
 # Contributors
 
@@ -86,5 +86,5 @@ To translate required strings to your language please
 - submit your translation to public repo, pull request are welcomed
 
 # License
-Copyright 2016 Erwan Quelin and the community  .
+Copyright 2016 Erwan Quelin and the community.  
 Licensed under the MIT License
