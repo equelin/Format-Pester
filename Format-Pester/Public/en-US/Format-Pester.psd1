@@ -1,12 +1,14 @@
-#Helpful article http://community.bartdesmet.net/blogs/bart/archive/2008/03/23/windows-powershell-2-0-feature-focus-script-internationalization.aspx
-#Write also Get-Help about_Script_Internationalization
+#Please read the section 'Information for translators' on the GitHub project page
+#Read also Get-Help about_Script_Internationalization
 
-#The language file prepared by Wojciech Sciesinski, wojciech[at]sciesinski[dot]net
+#The language en-US file prepared by Wojciech Sciesinski, wojciech[at]sciesinski[dot]net
+#String aligned to version - see msg00 value
 
 #Translate values, don't touch 'msgxx' fields !
 
 # culture="en-US"
 ConvertFrom-StringData @'
+		msg00 = 1.2.0
         msg01 = Table of Contents
         msg02 = Total Tests
         msg03 = Passed Tests
@@ -33,4 +35,7 @@ ConvertFrom-StringData @'
         msg24 = Failure Message
         msg25 = Passed tests
         msg26 = Failed tests
+		msg27 = The language
+		msg28 = is not supported. Language en-US will be used.
+		msg29 = Version of used language file is diffrent than than version of Format-Pester.ps1 file. Some texts can not be displayed correctly.
 '@

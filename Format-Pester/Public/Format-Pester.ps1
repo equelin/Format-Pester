@@ -5,7 +5,9 @@ Function Format-Pester {
    
     .DESCRIPTION
     Create documents in formats: HTML, Word, Text using PScribo PowerShell module. Documents are preformated to be human friendly.
-    Local Word installation is not needed to be installed on the computers were documents 
+    Local Word installation is not needed to be installed on the computers were documents.
+    
+    Additional languages (other than en-US) can be used - please read info for translator on the project web page.
     
     .PARAMETER PesterResult
     Specifies the Pester results Object
@@ -46,12 +48,17 @@ Function Format-Pester {
     
     .PARAMETER Language
     Select language what need to be used for generated reports. 
-    By default language is detected by Get-Culture with fallback to en-US if translation is not used.
+    By default language is detected by Get-Culture with fallback to en-US if translation is not available.
+    
+    .PARAMETER Version
+    Use that parameter to display version of Format-Pester only.
+    This parameter can be used to verify translations.
     
     .EXAMPLE
     Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
 
-    This command will document the results of the Pester's tests. Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
+    This command will document the results of the Pester's tests. 
+    Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
     
     .LINK
     https://github.com/equelin/Format-Pester
@@ -59,9 +66,9 @@ Function Format-Pester {
     .NOTES
     Initial author: Erwan Quelin 
     
-    Credits/coauthors:
-    Travis Plunk, github[at]ez13[dot]net
-    Wojciech Sciesinski, wojciech[at]sciesinski[dot]net
+    Credits/coauthors:  
+    - Travis Plunk, github[at]ez13[dot]net 
+    - Wojciech Sciesinski, wojciech[at]sciesinski[dot]net  
     
     LICENSE
     Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
@@ -72,10 +79,9 @@ Function Format-Pester {
 >>>>>>> cebf9a4... Information about license corrected, TODO updated, small correction
     TODO
     - Pester test need to be updated - yes, post factum TDD ;-)
-    - checking if language provided as value for Language parameter is available 
-    - and/or
-    - fallback language need to be implemented
-    
+    - INPUTS, OUTPUTS need to be described
+    - Pester test to check available languages and versions of translation need to be added
+        
   #>
     
     [CmdletBinding(DefaultParameterSetName = 'AllParamSet')]
@@ -85,13 +91,15 @@ Function Format-Pester {
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'PassedOnlyParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'FailedOnlyParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'VersionOnlyParamSet')]
         [ValidateNotNullorEmpty()]
         [Array]$PesterResult,
         [Parameter(Mandatory = $true, HelpMessage = 'PScribo export format', ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $true, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $true, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'FailedOnlyParamSet')]        
         [Parameter(Mandatory = $true, ParameterSetName = 'SummaryOnlyParamSet')]
-        [ValidateSet('Text', 'Word', 'HTML')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'VersionOnlyParamSet')]
+        #[ValidateSet('Text', 'Word', 'HTML')]
         [String[]]$Format,
         [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
@@ -128,12 +136,40 @@ Function Format-Pester {
         [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
-        [String]$Language=$($(Get-Culture).Name)
-        
+        [String]$Language = $($(Get-Culture).Name),
+        [Parameter(Mandatory = $false, ParameterSetName = 'VersionOnlyParamSet')]
+        [Switch]$Version
     )
     
+    [Version]$ScriptVersion = "1.2.0"
     
-    Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language
+    If ($Version.IsPresent) {
+        
+        Return $ScriptVersion.ToString()
+        
+        Break
+        
+    }
+    
+    Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language -ErrorAction SilentlyContinue
+    
+    If ([String]::IsNullOrEmpty($LocalizedStrings)) {
+        
+        Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture 'en-US' -ErrorAction Stop
+        
+        [String]$MessageText = "{0} {1} {2}" -f $LocalizedStrings.msg27, $Language, $LocalizedStrings.msg28
+        
+        Write-Verbose -Message $MessageText
+        
+    }
+    
+    If ($LocalizedStrings.msg00 -lt $ScriptVersion) {
+        
+        [String]$MessageText = "{0}" -f $LocalizedStrings.msg29
+        
+        Write-Warning -Message $MessageText
+        
+    }
     
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     #$LocalizedStrings 
@@ -149,6 +185,10 @@ Function Format-Pester {
         
         # Global options
         GlobalOption -PageSize A4
+        
+        
+        #Variables used to create numbers for TOC and subsections
+        $Head1Counter = 1
         
         If (-not $SkipTableOfContent.ispresent) {
             
@@ -176,10 +216,12 @@ Function Format-Pester {
             
             # Results Summary
             
-            $ResultsSummaryTitle = $LocalizedStrings.msg07
+            $ResultsSummaryTitle = "{0}.`t{1}" -f $Head1Counter, $LocalizedStrings.msg07
+            
+            $Head1Counter++
             
             $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount } | Sort-Object -Property FailedCount -Descending
-            Section -Name $ResultsSummaryTitle -Style Heading2  -ScriptBlock {
+            Section -Name $ResultsSummaryTitle -Style Heading2 -ScriptBlock {
                 
                 $ValidResults | Set-Style -Style 'Total' -Property 'TotalCount'
                 $ValidResults | Set-Style -Style 'Passed' -Property 'PassedCount'
@@ -193,9 +235,6 @@ Function Format-Pester {
         }
         
         If (-not $SummaryOnly.IsPresent) {
-            
-            #Variables used to create numbers for TOC and subsections
-            $Head1Counter = 1
             
             #Expanding Pester summary to receive all tests results
             $PesterTestsResults = $PesterResult | Select-Object -ExpandProperty TestResult
@@ -322,7 +361,7 @@ Function Format-Pester {
                                 
                                 [String]$Header2Title = "{0}.`t {1} {2}" -f $SubHeader2Number, $Header2TitlePart, $($Header2.Describe)
                                 
-                                Section -Name $Header2Title -Style Heading2 -ScriptBlock  {
+                                Section -Name $Header2Title -Style Heading2 -ScriptBlock {
                                     
                                     $CurrentPesterTestResults2 = $CurrentPesterTestResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
                                     
