@@ -1,0 +1,115 @@
+Table of Contents
+------------------------------------------------------------------------------------------------------------------------
+1      1.	Results summary
+2      2.	 Failed tests 
+2.1     2.1.	 Details for failed tests by Describe block: DemoFunction1
+2.1.1    2.1.1.	 Details for failed tests by Context block: Useless test 1-1
+2.1.2    2.1.2.	 Details for failed tests by Context block: Useless test 1-2
+2.2     2.2.	 Details for failed tests by Describe block: DemoFunction2
+2.2.1    2.2.1.	 Details for failed tests by Context block: Useless test 2-1
+2.2.2    2.2.2.	 Details for failed tests by Context block: Useless test 2-2
+3      3.	 Passed tests 
+3.1     3.1.	 Details for passed tests by Describe block: DemoFunction1
+3.1.1    3.1.1.	 Details for passed tests by Context block: Useless test 1-1
+3.1.2    3.1.2.	 Details for passed tests by Context block: Useless test 1-2
+3.2     3.2.	 Details for passed tests by Describe block: DemoFunction2
+3.2.1    3.2.1.	 Details for passed tests by Context block: Useless test 2-1
+3.2.2    3.2.2.	 Details for passed tests by Context block: Useless test 2-2
+
+
+1.	Results summary
+------------------------------------------------------------------------------------------------------------------------
+
+Total Tests Passed Tests Failed Tests Skipped Tests Pending Tests
+----------- ------------ ------------ ------------- -------------
+         12            5            7             0             0
+
+
+2.	 Failed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.	 Details for failed tests by Describe block: DemoFunction1
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.1.	 Details for failed tests by Context block: Useless test 1-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context          Name                        Failure Message                   
+-------          ----                        ---------------                   
+Useless test 1-1 does something useful 1-1-1 Expected {5} to be less than {3}  
+Useless test 1-1 does something useful 1-1-3 Expected {73} to be less than {65}
+
+
+2.1.2.	 Details for failed tests by Context block: Useless test 1-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context          Name                          Failure Message                  
+-------          ----                          ---------------                  
+Useless test 1-2 does something  useless 1-2-1 Expected: {5}                    
+                                               But was:  {6}                    
+Useless test 1-2 does something useful 1-2-3   Expected {36} to be less than {2}
+
+
+2.2.	 Details for failed tests by Describe block: DemoFunction2
+------------------------------------------------------------------------------------------------------------------------
+
+2.2.1.	 Details for failed tests by Context block: Useless test 2-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context          Name                        Failure Message                 
+-------          ----                        ---------------                 
+Useless test 2-1 does something useful 2-1-1 Expected {5} to be less than {3}
+
+
+2.2.2.	 Details for failed tests by Context block: Useless test 2-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context          Name                          Failure Message                   
+-------          ----                          ---------------                   
+Useless test 2-2 does something  useless 2-2-1 Expected: {5}                     
+                                               But was:  {6}                     
+Useless test 2-2 does something useful 2-2-3   Expected {40} to be less than {13}
+
+
+3.	 Passed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+3.1.	 Details for passed tests by Describe block: DemoFunction1
+------------------------------------------------------------------------------------------------------------------------
+
+3.1.1.	 Details for passed tests by Context block: Useless test 1-1
+------------------------------------------------------------------------------------------------------------------------
+
+Describe      Context          Name                       
+--------      -------          ----                       
+DemoFunction1 Useless test 1-1 does something useful 1-1-2
+
+
+3.1.2.	 Details for passed tests by Context block: Useless test 1-2
+------------------------------------------------------------------------------------------------------------------------
+
+Describe      Context          Name                         
+--------      -------          ----                         
+DemoFunction1 Useless test 1-2 does something  useless 1-2-2
+
+
+3.2.	 Details for passed tests by Describe block: DemoFunction2
+------------------------------------------------------------------------------------------------------------------------
+
+3.2.1.	 Details for passed tests by Context block: Useless test 2-1
+------------------------------------------------------------------------------------------------------------------------
+
+Describe      Context          Name                       
+--------      -------          ----                       
+DemoFunction2 Useless test 2-1 does something useful 2-1-2
+DemoFunction2 Useless test 2-1 does something useful 2-1-3
+
+
+3.2.2.	 Details for passed tests by Context block: Useless test 2-2
+------------------------------------------------------------------------------------------------------------------------
+
+Describe      Context          Name                         
+--------      -------          ----                         
+DemoFunction2 Useless test 2-2 does something  useless 2-2-2
+
+
