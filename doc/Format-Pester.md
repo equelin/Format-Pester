@@ -16,6 +16,11 @@ Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-Base
  [-Order <String>] [-GroupResultsBy <String>] [-SkipTableOfContent] [-SkipSummary] [-Language <String>]
 ```
 
+### VersionOnlyParamSet
+```
+Format-Pester [[-PesterResult] <Array>] [-Format <String[]>] [-BaseFileName <String>] [-Version]
+```
+
 ### SummaryOnlyParamSet
 ```
 Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-BaseFileName <String>]
@@ -37,7 +42,9 @@ Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-Base
 ## DESCRIPTION
 Create documents in formats: HTML, Word, Text using PScribo PowerShell module.
 Documents are preformated to be human friendly.
-Local Word installation is not needed to be installed on the computers were documents
+Local Word installation is not needed to be installed on the computers were documents.
+
+Additional languages (other than en-US) can be used - please read info for translator on the project web page.
 
 ## EXAMPLES
 
@@ -46,7 +53,7 @@ Local Word installation is not needed to be installed on the computers were docu
 Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
 ```
 
-This command will document the results of the Pester's tests.
+This command will document the results of the Pester's tests. 
 Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
 
 ## PARAMETERS
@@ -56,10 +63,22 @@ Specifies the Pester results Object
 
 ```yaml
 Type: Array
-Parameter Sets: (All)
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
 Aliases: 
 
 Required: True
+Position: 1
+Default value: 
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Array
+Parameter Sets: VersionOnlyParamSet
+Aliases: 
+
+Required: False
 Position: 1
 Default value: 
 Accept pipeline input: True (ByPropertyName, ByValue)
@@ -75,10 +94,22 @@ Might be:
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
 Aliases: 
 
 Required: True
+Position: Named
+Default value: 
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String[]
+Parameter Sets: VersionOnlyParamSet
+Aliases: 
+
+Required: False
 Position: Named
 Default value: 
 Accept pipeline input: False
@@ -91,7 +122,7 @@ Default is the path where is executed this function.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
 Aliases: 
 
 Required: False
@@ -200,7 +231,7 @@ Select to skip adding table of content at the begining of document(s).
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
 Aliases: 
 
 Required: False
@@ -228,16 +259,32 @@ Accept wildcard characters: False
 
 ### -Language
 Select language what need to be used for generated reports. 
-By default language is detected by Get-Culture with fallback to en-US if translation is not used.
+By default language is detected by Get-Culture with fallback to en-US if translation is not available.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
 Aliases: 
 
 Required: False
 Position: Named
 Default value: $($(Get-Culture).Name)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Version
+Use that parameter to display version of Format-Pester only.
+This parameter can be used to verify translations.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: VersionOnlyParamSet
+Aliases: 
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -251,18 +298,17 @@ Accept wildcard characters: False
 ## NOTES
 Initial author: Erwan Quelin 
 
-Credits/coauthors:
-Travis Plunk, github\[at\]ez13\[dot\]net
-Wojciech Sciesinski, wojciech\[at\]sciesinski\[dot\]net
+Credits/coauthors:  
+- Travis Plunk, github\[at\]ez13\[dot\]net 
+- Wojciech Sciesinski, wojciech\[at\]sciesinski\[dot\]net  
 
 LICENSE
 Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
 
 TODO
 - Pester test need to be updated - yes, post factum TDD ;-)
-- checking if language provided as value for Language parameter is available 
-- and/or
-- fallback language need to be implemented
+- INPUTS, OUTPUTS need to be described
+- Pester test to check available languages and versions of translation need to be added
 
 ## RELATED LINKS
 

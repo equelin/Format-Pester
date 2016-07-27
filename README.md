@@ -60,19 +60,23 @@ This command will document the results of the Pester's tests. Documents will be 
 - <https://twitter.com/erwanquelin>
 
 # Information for translators
-Format-Pester can be used to prepared reports in languages different than English.
-To translate required strings to your language
-- read information
+Format-Pester can be used to prepare reports in languages different than English but a language file for your PSCulture/language need to be available.
+
+To translate required strings to your language please
+- read general information about PowerShell support for internationalization
  ```
  Get-Help about_Script_Internationalization
  ```
  online version about_Script_Internationalization available [here](https://technet.microsoft.com/en-us/library/hh847854.aspx).
 - create subfolder with your language/culture code under Public - e.g. xx-XX
-- copy the file Format-Pester.psd1 from Public\en-US\ to your xx-XX
-- translate requred strings
-- test
+- copy the file [Format-Pester.psd1](/Public/en-US/Format-Pester.psd1) from Public\en-US\ to your xx-XX - please don't translate module manifest - files have the same name!
+- translate required strings
+- test - for that you can uncomment line in the Format-Pester.ps1 file (remember about re-import module with Force)
+```
+#$LocalizedStrings
+```
 - use the Language parameter if your PSCulture is different than required language for output   
-- submit to public repo, pull request are welcomed
+- submit your translation to public repo, pull request are welcomed
 
 # License
 Copyright 2016 Erwan Quelin and the community  .
