@@ -70,7 +70,7 @@ Function Format-Pester {
     - Travis Plunk, github[at]ez13[dot]net 
     - Wojciech Sciesinski, wojciech[at]sciesinski[dot]net  
     
-    LICENSE
+    LICENSE  
     Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
 <<<<<<< HEAD
         
