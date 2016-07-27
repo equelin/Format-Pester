@@ -1,4 +1,3 @@
-Import-Module Format-Pester
 Function Format-Pester {
 <#
     .SYNOPSIS
@@ -66,12 +65,16 @@ Function Format-Pester {
     
     LICENSE
     Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
+<<<<<<< HEAD
         
-    TODO
-    - add alligning of width for tables if grouping in used 
-    - Pester test need to be updated - yes, post factum TDD ;-)
-    - Format of verbose message need to be corrected
+=======
     
+>>>>>>> cebf9a4... Information about license corrected, TODO updated, small correction
+    TODO
+    - Pester test need to be updated - yes, post factum TDD ;-)
+    - checking if language provided as value for Language parameter is available 
+    - and/or
+    - fallback language need to be implemented
     
   #>
     
@@ -282,8 +285,6 @@ Function Format-Pester {
                 
                 $Head3counter = 1
                 
-                
-                
                 If (-not $PassedOnly.IsPresent -and $PesterResult.FailedCount -gt 0) {
                     
                     $CurrentPesterTestResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq $CurrentResultType }
@@ -293,8 +294,6 @@ Function Format-Pester {
                         [String]$Header1Title = "{0}.`t {1}" -f $Head1counter, $Header1TitlePart
                         
                         Section -Name $Header1Title -Style Heading1   {
-                            
-                            Write-Host $TestsResultsColumnsHeaders
                             
                             $CurrentPesterTestResults |
                             Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
