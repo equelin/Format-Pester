@@ -22,7 +22,7 @@ ConvertFrom-StringData @'
         msg11 = Details for passed tests by Describe block:
         msg12 = Details for passed tests by Context block: 
         msg13 = Found passed tests in Decribe blocks: 
-        msg14 = Found passed tests in Describe block: 
+        msg14 = Found passed tests in Context block: 
         msg15 = Describe
         msg16 = Context
         msg17 = Name
