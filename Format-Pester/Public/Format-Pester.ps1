@@ -348,7 +348,7 @@ Function Format-Pester {
                         Section -Name "$Head1Counter.`t $Head1SectionTitle " -Style Heading1 -ScriptBlock {
                             
                             #Get unique 'Describe' from Pester results
-                            [Array]$FailedHeaders2 = $CurrentPesterTestResults | Select Describe -Unique
+                            [Array]$FailedHeaders2 = $CurrentPesterTestResults | Select-Object -Property Describe -Unique
                             
                             # Tests results details - Grouped by Describe
                             foreach ($Header2 in $FailedHeaders2) {
@@ -367,7 +367,7 @@ Function Format-Pester {
                                     
                                     If ($GroupResultsBy -eq 'Result-Describe-Context') {
                                         
-                                        [Array]$FailedHeaders3 = $CurrentPesterTestResults2 | Select Context -Unique
+                                        [Array]$FailedHeaders3 = $CurrentPesterTestResults2 | Select-Object -Property Context -Unique
                                         
                                         foreach ($Header3 in $FailedHeaders3) {
                                             
