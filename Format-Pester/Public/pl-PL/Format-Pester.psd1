@@ -15,8 +15,8 @@ ConvertFrom-StringData @'
         msg04 = Testy niezdane
         msg05 = Testy pominięte
         msg06 = Testy trwające
-        msg07 = Podsmowanie
-        msg08 = Przetwarzanie resultatów testów dla
+        msg07 = Podsumowanie  testów
+        msg08 = Przetwarzanie rezultatów testów dla
         msg09 = Zdane
         msg10 = Szczegóły zdanych testów
         msg11 = Szczegóły zdanych testów dla bloku Describe:
