@@ -308,7 +308,6 @@ Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/m
 TODO
 - Pester test need to be updated - yes, post factum TDD ;-)
 - INPUTS, OUTPUTS need to be described
-- Pester test to check available languages and versions of translation need to be added
 
 ## RELATED LINKS
 
