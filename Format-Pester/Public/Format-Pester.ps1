@@ -92,14 +92,13 @@ Function Format-Pester {
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'FailedOnlyParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'SummaryOnlyParamSet')]
         [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'VersionOnlyParamSet')]
-        [ValidateNotNullorEmpty()]
         [Array]$PesterResult,
         [Parameter(Mandatory = $true, HelpMessage = 'PScribo export format', ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $true, ParameterSetName = 'PassedOnlyParamSet')]
         [Parameter(Mandatory = $true, ParameterSetName = 'FailedOnlyParamSet')]        
         [Parameter(Mandatory = $true, ParameterSetName = 'SummaryOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'VersionOnlyParamSet')]
-        #[ValidateSet('Text', 'Word', 'HTML')]
+        [ValidateSet('Text', 'Word', 'HTML')]
         [String[]]$Format,
         [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
@@ -141,13 +140,24 @@ Function Format-Pester {
         [Switch]$Version
     )
     
-    [Version]$ScriptVersion = "1.3.0"
+    [Version]$ScriptVersion = "1.3.1"
     
     If ($Version.IsPresent) {
         
         Return $ScriptVersion.ToString()
         
         Break
+        
+    }
+    Else {
+        
+        if ($null -eq $PesterResult) {
+            
+            $MessageText = "Value of the parameter PesterResult can't be null or empty."
+            
+            Throw $MessageText
+            
+        }
         
     }
     
@@ -170,6 +180,8 @@ Function Format-Pester {
         Write-Warning -Message $MessageText
         
     }
+    
+    
     
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     #$LocalizedStrings 
@@ -258,9 +270,7 @@ Function Format-Pester {
                 }
                 
             }
-            
-            #Write-Verbose $EvaluateResults.
-            
+                        
             foreach ($CurrentResultType in $EvaluateResults) {
                 
                 switch ($CurrentResultType) {
@@ -348,10 +358,10 @@ Function Format-Pester {
                         Section -Name "$Head1Counter.`t $Head1SectionTitle " -Style Heading1 -ScriptBlock {
                             
                             #Get unique 'Describe' from Pester results
-                            [Array]$FailedHeaders2 = $CurrentPesterTestResults | Select-Object -Property Describe -Unique
+                            [Array]$Headers2 = $CurrentPesterTestResults | Select-Object -Property Describe -Unique
                             
                             # Tests results details - Grouped by Describe
-                            foreach ($Header2 in $FailedHeaders2) {
+                            foreach ($Header2 in $Headers2) {
                                 
                                 [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader2Part, $($Header2.Describe)
                                 
@@ -363,13 +373,15 @@ Function Format-Pester {
                                 
                                 Section -Name $Header2Title -Style Heading2 -ScriptBlock {
                                     
-                                    $CurrentPesterTestResults2 = $CurrentPesterTestResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }
+                                    $CurrentPesterTestResults2 = $CurrentPesterTestResults | Where-Object -FilterScript { $_.Describe -eq $Header2.Describe }                                    
+                                    
+                                    $CurrentPesterTestResultsCount2 = ($CurrentPesterTestResults2 | Measure-Object).Count
                                     
                                     If ($GroupResultsBy -eq 'Result-Describe-Context') {
                                         
-                                        [Array]$FailedHeaders3 = $CurrentPesterTestResults2 | Select-Object -Property Context -Unique
+                                        [Array]$Headers3 = $CurrentPesterTestResults2 | Select-Object -Property Context -Unique
                                         
-                                        foreach ($Header3 in $FailedHeaders3) {
+                                        foreach ($Header3 in $Headers3) {
                                             
                                             [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader3Part, $($Header3.Context)
                                             
@@ -377,13 +389,17 @@ Function Format-Pester {
                                             
                                             $CurrentPesterTestResults3 = $CurrentPesterTestResults2 | Where-Object -FilterScript { $_.Context -eq $Header3.Context }
                                             
+                                            $CurrentPesterTestResultsCount3 = ($CurrentPesterTestResults3 | Measure-Object).Count
+                                            
                                             $SubHeader3Number = "{0}.{1}.{2}" -f $Head1Counter, $Head2counter, $Head3counter
                                             
                                             [String]$Header3Title = "{0}.`t {1} {2}" -f $SubHeader3Number, $Header3TitlePart, $($Header3.Context)
                                             
                                             Section -Name $Header3Title -Style Heading3 -ScriptBlock {
                                                 
-                                                #Paragraph "$($results.Count) test(s) failed:"
+                                                $MessageText = "Performing action for {0} {1}, amount of results {2}" -f $Header3TitlePart, $($Header3.Context), $CurrentPesterTestResultsCount3
+                                                
+                                                Write-Verbose -Message $MessageText
                                                 
                                                 $CurrentPesterTestResults3 |
                                                 Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
@@ -395,6 +411,10 @@ Function Format-Pester {
                                         
                                     } #$GroupResultsBy -eq 'Result-Describe-Context'
                                     Else {
+                                        
+                                        $MessageText = "Performing action for {0} {1}, amount of results {2}" -f $Header2TitlePart, $($Header2.Context), $CurrentPesterTestResultsCount2
+                                        
+                                        Write-Verbose -Message $MessageText
                                         
                                         $CurrentPesterTestResults2 |
                                         Table -Columns $TestsResultsColumnsData -Headers $TestsResultsColumnsHeaders -Width 90
