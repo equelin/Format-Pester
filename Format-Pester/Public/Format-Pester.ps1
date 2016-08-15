@@ -363,7 +363,7 @@ Function Format-Pester {
                             # Tests results details - Grouped by Describe
                             foreach ($Header2 in $Headers2) {
                                 
-                                [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader2Part, $($Header2.Describe)
+                                [String]$MessageText = "{0}: {1} " -f $VerboseMsgHeader2Part, $($Header2.Describe)
                                 
                                 Write-Verbose -Message $MessageText
                                 
@@ -383,7 +383,7 @@ Function Format-Pester {
                                         
                                         foreach ($Header3 in $Headers3) {
                                             
-                                            [String]$MessageText = "{0} {1} " -f $VerboseMsgHeader3Part, $($Header3.Context)
+                                            [String]$MessageText = "{0}: {1} " -f $VerboseMsgHeader3Part, $($Header3.Context)
                                             
                                             Write-Verbose -Message $MessageText
                                             
@@ -397,7 +397,7 @@ Function Format-Pester {
                                             
                                             Section -Name $Header3Title -Style Heading3 -ScriptBlock {
                                                 
-                                                $MessageText = "Performing action for {0} {1}, amount of results {2}" -f $Header3TitlePart, $($Header3.Context), $CurrentPesterTestResultsCount3
+                                                $MessageText = "{0} {1} {2}, {3} {4}" -f $LocalizedStrings.msg30, $Header3TitlePart, $($Header3.Context), $LocalizedStrings.msg31, $CurrentPesterTestResultsCount3
                                                 
                                                 Write-Verbose -Message $MessageText
                                                 
@@ -412,7 +412,7 @@ Function Format-Pester {
                                     } #$GroupResultsBy -eq 'Result-Describe-Context'
                                     Else {
                                         
-                                        $MessageText = "Performing action for {0} {1}, amount of results {2}" -f $Header2TitlePart, $($Header2.Context), $CurrentPesterTestResultsCount2
+                                        $MessageText = "{0} {1} {2}, {3}: {4}" -f $LocalizedStrings.msg30, $Header3TitlePart, $($Header3.Context), $LocalizedStrings.msg31, $CurrentPesterTestResultsCount3
                                         
                                         Write-Verbose -Message $MessageText
                                         
