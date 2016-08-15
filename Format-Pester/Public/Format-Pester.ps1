@@ -72,15 +72,10 @@ Function Format-Pester {
     
     LICENSE  
     Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
-<<<<<<< HEAD
-        
-=======
-    
->>>>>>> cebf9a4... Information about license corrected, TODO updated, small correction
+
     TODO
     - Pester test need to be updated - yes, post factum TDD ;-)
     - INPUTS, OUTPUTS need to be described
-    - Pester test to check available languages and versions of translation need to be added
         
   #>
     

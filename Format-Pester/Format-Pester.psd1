@@ -12,20 +12,9 @@
 RootModule = 'Format-Pester.psm1'
 
 # Version number of this module.
-<<<<<<< HEAD
-=======
 # If you are increasing ModuleVersion please change also the values of variable 'ScriptVersion' in the Format-Pester.ps1 file
 # Verify also translations and increase the values of msg00 fields
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> fb9e6fb... The module manifest updated - number increased, info about file versioning added
-ModuleVersion = '1.2.0'
-=======
-ModuleVersion = '1.3.0'
->>>>>>> c835774... The module version,  required version of PowerShell, licenseuri corrected
-=======
 ModuleVersion = '1.3.1'
->>>>>>> d766e5b... 1.3.1 - 2016-08-14
 
 # ID used to uniquely identify this module
 GUID = 'daa609a5-1293-4f62-9467-1a120c529e87'
@@ -44,10 +33,7 @@ Description = 'Powershell module for documenting Pester s results.'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '4.0'
-<<<<<<< HEAD
 
-=======
->>>>>>> d766e5b... 1.3.1 - 2016-08-14
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
 
