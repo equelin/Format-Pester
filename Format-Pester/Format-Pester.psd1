@@ -12,7 +12,7 @@
 RootModule = 'Format-Pester.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.1.0'
+ModuleVersion = '1.2.0'
 
 # ID used to uniquely identify this module
 GUID = 'daa609a5-1293-4f62-9467-1a120c529e87'
@@ -30,7 +30,7 @@ Copyright = 'Copyright (c) 2016 Erwan Quélin and the community. All rights rese
 Description = 'Powershell module for documenting Pester s results.'
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '5.0'
+PowerShellVersion = '4.0'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -95,7 +95,7 @@ PrivateData = @{
         Tags = @('Pester','PScribo')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        # LicenseUri = 'https://github.com/equelin/Format-Pester/blob/master/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/equelin/Format-Pester'

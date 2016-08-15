@@ -57,7 +57,7 @@ Function Format-Pester
     Wojciech Sciesinski, wojciech[at]sciesinski[dot]net
     
     LICENSE
-    <Need to be selected and fullfilled correctly>
+    Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
         
     TODO
     - add alligning of width for tables if grouping in used 
