@@ -43,7 +43,7 @@ function New-MockedTestResultCollection
         return $mockedTestResult
 }
 
-Describe 'Unit test for Format-Pester' {
+Describe 'Unit tests for Format-Pester' {
     BeforeAll {
         # Backup the default parameters so we can restor them
         # It must be a clone because it is an object, otherwise updates will update this
