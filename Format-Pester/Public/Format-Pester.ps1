@@ -329,7 +329,7 @@ Function Format-Pester {
                 
                 $Head3counter = 1
                 
-                If (-not $PassedOnly.IsPresent -and $PesterResult.FailedCount -gt 0) {
+                If (-not $PassedOnly.IsPresent) {
                     
                     $CurrentPesterTestResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq $CurrentResultType }
                     
