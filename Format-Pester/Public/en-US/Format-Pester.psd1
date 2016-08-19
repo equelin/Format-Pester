@@ -8,7 +8,7 @@
 
 # culture="en-US"
 ConvertFrom-StringData @'
-		msg00 = 1.3.1
+		msg00 = 1.3.3
         msg01 = Table of Contents
         msg02 = Total Tests
         msg03 = Passed Tests

@@ -135,7 +135,7 @@ Function Format-Pester {
         [Switch]$Version
     )
     
-    [Version]$ScriptVersion = "1.3.1"
+    [Version]$ScriptVersion = "1.3.3"
     
     If ($Version.IsPresent) {
         

@@ -8,7 +8,7 @@
 
 # culture="pl-PL"
 ConvertFrom-StringData @'
-		msg00 = 1.3.1
+		msg00 = 1.3.3
         msg01 = Spis treści
         msg02 = Testy ogółem
         msg03 = Testy zdane

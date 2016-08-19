@@ -8,3 +8,6 @@
  - verbose messages updated 
  - validateSet for the Format paarmeter added/uncommented
  - names in code cleaned
+
+- 1.3.3 - 2016-08-20
+ - Fix issue #14
