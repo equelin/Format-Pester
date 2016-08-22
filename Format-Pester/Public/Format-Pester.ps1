@@ -132,7 +132,11 @@ Function Format-Pester {
         [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
         [String]$Language = $($(Get-Culture).Name),
         [Parameter(Mandatory = $false, ParameterSetName = 'VersionOnlyParamSet')]
-        [Switch]$Version
+        [Switch]$Version,
+        [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Switch]$DumpPScriboObject
     )
     
     [Version]$ScriptVersion = "1.3.3"
@@ -434,5 +438,16 @@ Function Format-Pester {
             
         }
         
-    } | Export-Document -Path $Path -Format $Format @exportParams
+    }
+    
+    If ($DumpPScriboObject.IsPresent) {
+        
+        Return Document
+        
+    }
+    Else {
+        
+        $PScriboObject | Export-Document -Path $Path -Format $Format @exportParams
+        
+    }
 }
