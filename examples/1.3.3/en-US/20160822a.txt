@@ -1,0 +1,113 @@
+Table of Contents
+------------------------------------------------------------------------------------------------------------------------
+1.	Results summary
+2.	 Failed tests 
+ 2.1.	 Details for failed tests by Describe block: DemoFunction1 - Random
+ 2.2.	 Details for failed tests by Describe block: DemoFunction1 - Static
+ 2.3.	 Details for failed tests by Describe block: DemoFunction2 - Random
+ 2.4.	 Details for failed tests by Describe block: DemoFunction2 - Static
+3.	 Passed tests 
+ 3.1.	 Details for passed tests by Describe block: DemoFunction1 - Random
+ 3.2.	 Details for passed tests by Describe block: DemoFunction1 - Static
+ 3.3.	 Details for passed tests by Describe block: DemoFunction2 - Random
+ 3.4.	 Details for passed tests by Describe block: DemoFunction2 - Static
+
+
+1.	Results summary
+------------------------------------------------------------------------------------------------------------------------
+
+Total Tests Passed Tests Failed Tests Skipped Tests Pending Tests
+----------- ------------ ------------ ------------- -------------
+         24           15            9             0             0
+
+
+2.	 Failed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.	 Details for failed tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                      
+-------            ----                            ---------------                      
+Useless test R-1-1 does something useful R-1-1-1   Expected: {True}                     
+                                                   But was:  {0}                        
+Useless test R-1-2 does something  useless R-1-2-1 Expected: {30}                       
+                                                   But was:  {28}                       
+Useless test R-1-2 does something  useless R-1-2-2 Expected {13} to be greater than {30}
+
+
+2.2.	 Details for failed tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                                           
+-------            ----                            ---------------                                           
+Useless test S-1-1 does something useful S-1-1-1   Expected {5} to be less than {3}                          
+Useless test S-1-2 does something  useless S-1-2-1 Expected: {5}                                             
+                                                   But was:  {6}                                             
+Useless test S-1-2 does something useful S-1-2-3   Expected: value was {2}, but should not have been the same
+
+
+2.3.	 Details for failed tests by Describe block: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message              
+-------            ----                            ---------------              
+Useless test R-2-2 does something  useless R-2-2-1 Expected: {30}               
+                                                   But was:  {29}               
+
+
+2.4.	 Details for failed tests by Describe block: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                                            
+-------            ----                            ---------------                                            
+Useless test S-2-1 does something useful S-2-1-3   Expected: value was {56}, but should not have been the same
+Useless test S-2-2 does something  useless S-2-2-2 Expected {2} to be greater than {3}                        
+
+
+3.	 Passed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+3.1.	 Details for passed tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                         
+--------               -------            ----                         
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-2
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-3
+DemoFunction1 - Random Useless test R-1-2 does something useful R-1-2-3
+
+
+3.2.	 Details for passed tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                           
+--------               -------            ----                           
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-2  
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-3  
+DemoFunction1 - Static Useless test S-1-2 does something  useless S-1-2-2
+
+
+3.3.	 Details for passed tests by Describe block: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                           
+--------               -------            ----                           
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-1  
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-2-2  
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-3  
+DemoFunction2 - Random Useless test R-2-2 does something  useless R-2-2-2
+DemoFunction2 - Random Useless test R-2-2 does something useful R-2-2-3  
+
+
+3.4.	 Details for passed tests by Describe block: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                           
+--------               -------            ----                           
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-1-1  
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-2-2  
+DemoFunction2 - Static Useless test S-2-2 does something  useless S-2-2-1
+DemoFunction2 - Static Useless test S-2-2 does something useful S-2-2-3  
+
+
