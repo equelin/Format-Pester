@@ -14,6 +14,7 @@ Document Pester's tests results into the selected format (HTML, Word, Text).
 ```
 Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-BaseFileName <String>]
  [-Order <String>] [-GroupResultsBy <String>] [-SkipTableOfContent] [-SkipSummary] [-Language <String>]
+ [-DumpPScriboObject]
 ```
 
 ### VersionOnlyParamSet
@@ -24,19 +25,21 @@ Format-Pester [[-PesterResult] <Array>] [-Format <String[]>] [-BaseFileName <Str
 ### SummaryOnlyParamSet
 ```
 Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-BaseFileName <String>]
- [-SummaryOnly] [-SkipTableOfContent] [-Language <String>]
+ [-SummaryOnly] [-SkipTableOfContent] [-Language <String>] [-DumpPScriboObject]
 ```
 
 ### FailedOnlyParamSet
 ```
 Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-BaseFileName <String>]
  [-GroupResultsBy <String>] [-FailedOnly] [-SkipTableOfContent] [-SkipSummary] [-Language <String>]
+ [-DumpPScriboObject]
 ```
 
 ### PassedOnlyParamSet
 ```
 Format-Pester [-PesterResult] <Array> -Format <String[]> [-Path <String>] [-BaseFileName <String>]
  [-GroupResultsBy <String>] [-PassedOnly] [-SkipTableOfContent] [-SkipSummary] [-Language <String>]
+ [-DumpPScriboObject]
 ```
 
 ## DESCRIPTION
@@ -289,11 +292,30 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DumpPScriboObject
+When DumpPscriboObject is used the result of the function is custom object containing PScribo Document.
+Use this parameter for prepare tests or debug of document generation.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AllParamSet, SummaryOnlyParamSet, FailedOnlyParamSet, PassedOnlyParamSet
+Aliases: 
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ## INPUTS
+
+### An expected input is the result of the command Invoke-Pester with the parameter -PassThru. 
+With that command Invoke-Pester returns a custom object (PSCustomObject) that contains the test results.
 
 ## OUTPUTS
 
-### System.IO.FileInfo
+### Files what contain results of test. Files format and structure is based on values of parameters used.
 
 ## NOTES
 Initial author: Erwan Quelin 
@@ -302,12 +324,11 @@ Credits/coauthors:
 - Travis Plunk, github\[at\]ez13\[dot\]net 
 - Wojciech Sciesinski, wojciech\[at\]sciesinski\[dot\]net  
 
-LICENSE
+LICENSE  
 Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
 
 TODO
 - Pester test need to be updated - yes, post factum TDD ;-)
-- INPUTS, OUTPUTS need to be described
 
 ## RELATED LINKS
 

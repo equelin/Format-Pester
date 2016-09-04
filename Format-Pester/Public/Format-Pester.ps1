@@ -54,6 +54,17 @@ Function Format-Pester {
     Use that parameter to display version of Format-Pester only.
     This parameter can be used to verify translations.
     
+    .PARAMETER DumpPScriboObject
+    When DumpPscriboObject is used the result of the function is custom object containing PScribo Document.
+    Use this parameter for prepare tests or debug of document generation.
+    
+    .INPUTS
+    An expected input is the result of the command Invoke-Pester with the parameter -PassThru. 
+    With that command Invoke-Pester returns a custom object (PSCustomObject) that contains the test results.
+    
+    .OUTPUTS
+    Files what contain results of test. Files format and structure is based on values of parameters used.
+    
     .EXAMPLE
     Invoke-Pester -PassThru | Format-Pester -Path . -Format HTML,Word,Text -BaseFileName 'PesterResults'
 
@@ -75,8 +86,7 @@ Function Format-Pester {
 
     TODO
     - Pester test need to be updated - yes, post factum TDD ;-)
-    - INPUTS, OUTPUTS need to be described
-        
+            
   #>
     
     [CmdletBinding(DefaultParameterSetName = 'AllParamSet')]
@@ -136,10 +146,11 @@ Function Format-Pester {
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
         [Switch]$DumpPScriboObject
     )
     
-    [Version]$ScriptVersion = "1.3.3"
+    [Version]$ScriptVersion = "1.4.0"
     
     If ($Version.IsPresent) {
         
@@ -180,19 +191,34 @@ Function Format-Pester {
         
     }
     
-    
+    $TextFileEncoding = $LocalizedStrings.msg32 
     
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     #$LocalizedStrings 
     
     $exportParams = @{ }
     if ($Format.Count -eq 1 -and $Format -eq 'HTML') {
+        
         $exportParams += @{
+            
             Options = @{ NoPageLayoutStyle = $true }
         }
+        
+        
+    }
+    elseif ($Format -contains 'text' -and $TextFileEncoding -ne 'ASCII') {
+        
+        $exportParams += @{
+            
+            Options = @{ Encoding = $TextFileEncoding }
+            
+        }
+        
+        
     }
     
-    Document $BaseFileName {
+    
+    $PScriboObject = Document $BaseFileName {
         
         # Global options
         GlobalOption -PageSize A4
@@ -203,7 +229,7 @@ Function Format-Pester {
         
         If (-not $SkipTableOfContent.ispresent) {
             
-            # Table of content
+            # Table of content header text
             [String]$TOCName = $LocalizedStrings.msg01
             
             TOC -Name $TOCName
@@ -424,7 +450,7 @@ Function Format-Pester {
                                 
                                 $Head2counter++
                                 
-                            } #end foreach ($Header2 in $FailedHeaders2)
+                            } #end foreach ($Header2 in $Headers2)
                             
                         }
                         
@@ -442,12 +468,10 @@ Function Format-Pester {
     
     If ($DumpPScriboObject.IsPresent) {
         
-        Return Document
+        Return $PScriboObject
         
     }
-    Else {
         
         $PScriboObject | Export-Document -Path $Path -Format $Format @exportParams
-        
-    }
+     
 }

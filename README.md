@@ -95,7 +95,7 @@ you can also uncomment line in the Format-Pester.ps1 file (remember about re-imp
 #$LocalizedStrings
 ```
 - use the Language parameter if your PSCulture is different than required language for output   
-- submit your translation to public repo, pull request are welcomed
+- submit your translation to public repo, pull requests are welcomed
 
 # [Version history](VERSIONS.md)
 
@@ -104,5 +104,6 @@ Copyright 2016 Erwan Quelin and the community.
 Licensed under the MIT License
 
 # TODO
-- updated examples - align them to v. 1.3.0 and PScribo 0.7.12.47
+- updated examples - align them to v. 1.4.0 and PScribo 0.7.12.47
 - update VERSIONS.md
+- automate preparing example files
