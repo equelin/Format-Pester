@@ -1,0 +1,114 @@
+Spis tre?ci
+------------------------------------------------------------------------------------------------------------------------
+1.	Podsumowanie  test?w
+2.	 Niezdane testy 
+ 2.1.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction1 - Random
+ 2.2.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction1 - Static
+ 2.3.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction2 - Random
+ 2.4.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction2 - Static
+3.	 Zdane testy 
+ 3.1.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction1 - Random
+ 3.2.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction1 - Static
+ 3.3.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction2 - Random
+ 3.4.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction2 - Static
+
+
+1.	Podsumowanie  test?w
+------------------------------------------------------------------------------------------------------------------------
+
+Testy og??em Testy zdane Testy niezdane Testy pomini?te Testy trwaj?ce
+------------ ----------- -------------- --------------- --------------
+          24          13             11               0              0
+
+
+2.	 Niezdane testy 
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu        
+-------            -----                           --------------------------        
+Useless test R-1-1 does something useful R-1-1-1   Expected: {True}                  
+                                                   But was:  {0}                     
+Useless test R-1-1 does something useful R-1-1-3   Expected {94} to be less than {23}
+Useless test R-1-2 does something  useless R-1-2-1 Expected: {30}                    
+                                                   But was:  {31}                    
+Useless test R-1-2 does something useful R-1-2-3   Expected {74} to be less than {32}
+
+
+2.2.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu                                
+-------            -----                           --------------------------                                
+Useless test S-1-1 does something useful S-1-1-1   Expected {5} to be less than {3}                          
+Useless test S-1-2 does something  useless S-1-2-1 Expected: {5}                                             
+                                                   But was:  {6}                                             
+Useless test S-1-2 does something useful S-1-2-3   Expected: value was {2}, but should not have been the same
+
+
+2.3.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu    
+-------            -----                           --------------------------    
+Useless test R-2-1 does something useful R-2-1-1   Expected: {True}              
+                                                   But was:  {0}                 
+Useless test R-2-2 does something  useless R-2-2-1 Expected: {30}                
+                                                   But was:  {29}                
+
+
+2.4.	 Szczeg??y niezdanych test?w dla bloku Describe: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu                                 
+-------            -----                           --------------------------                                 
+Useless test S-2-1 does something useful S-2-1-3   Expected: value was {56}, but should not have been the same
+Useless test S-2-2 does something  useless S-2-2-2 Expected {2} to be greater than {3}                        
+
+
+3.	 Zdane testy 
+------------------------------------------------------------------------------------------------------------------------
+
+3.1.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Nazwa                          
+--------               -------            -----                          
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-2  
+DemoFunction1 - Random Useless test R-1-2 does something  useless R-1-2-2
+
+
+3.2.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Nazwa                          
+--------               -------            -----                          
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-2  
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-3  
+DemoFunction1 - Static Useless test S-1-2 does something  useless S-1-2-2
+
+
+3.3.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Nazwa                          
+--------               -------            -----                          
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-2-2  
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-3  
+DemoFunction2 - Random Useless test R-2-2 does something  useless R-2-2-2
+DemoFunction2 - Random Useless test R-2-2 does something useful R-2-2-3  
+
+
+3.4.	 Szczeg??y zdanych test?w dla bloku Describe: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Nazwa                          
+--------               -------            -----                          
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-1-1  
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-2-2  
+DemoFunction2 - Static Useless test S-2-2 does something  useless S-2-2-1
+DemoFunction2 - Static Useless test S-2-2 does something useful S-2-2-3  
+
+
