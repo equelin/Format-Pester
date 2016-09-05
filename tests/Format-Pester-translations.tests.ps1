@@ -20,10 +20,14 @@
     0.1.0 - 2016-07-30 - The first version 
     0.2.0 - 2016-08-02 - Checking if null/empty strings are used, messages for failed tests improved
     0.3.0 - 2016-08-09 - Names of variables used in code generalized, base names located at the begining of code
+    0.3.1 - 2016-09-04 - Some tests corrected
 
     TODO
     - improve performance for testing in context "Check translation for $SubfolderInPublicName - detailed fields name comparison" - based on the previously calculated difference
     - add support for multi functions modules
+
+    REMARKS
+    - Tests for check encoding used for translation files based on the 4 bytes of data (BOM) are the waste of time - due that some editors don't set this bytes e.g. Notepad++
 
     LICENSE
     Copyright (c) 2016 Wojciech Sciesinski
@@ -31,7 +35,6 @@
     Full license text: https://opensource.org/licenses/MIT
 
 #>
-
 
 $ModuleName = 'Format-Pester'
 
@@ -86,8 +89,6 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
     
     Context 'Check the subfolder en-US - main language' {
         
-        
-        
         $enUSfolderInPublic = Get-Item -Path "$ModulePath\Public\en-US" -ErrorAction SilentlyContinue
         
         It 'Check if the en-US folder exist' {
@@ -128,7 +129,7 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
             $GlobalenUSLocalizedStrings.msg00 | Should be $ModuleVersion
             
         }
-        
+                
         #Enumerate hashtable and check if keys has assigned values (translations strings are fullfilled)
         $GlobalenUSLocalizedStrings.GetEnumerator() | ForEach-Object -Process {
             
@@ -150,9 +151,9 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
     
     $SubfoldersInPublic = Get-ChildItem -Path "$ModulePath\Public\" -Directory
     
-    ForEach ($SubfolerInPublic in $SubfoldersInPublic) {
+    ForEach ($SubfolderInPublic in $SubfoldersInPublic) {
         
-        $SubfolderInPublicName = $SubfolerInPublic.Name
+        $SubfolderInPublicName = $SubfolderInPublic.Name
         
         If ($SubfolderInPublicName -ne 'en-US') {
             
@@ -167,7 +168,7 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
                 }
                 
                 It "Check if the subfolder $SubfolderInPublicName contains $BaseTranslationFileName file " {
-                    { Test-Path -Path "$SubfolderInPublicNamePath\Format-Pester.ps1" -PathType Leaf } | Should be $true
+                    { Test-Path -Path "$SubfolderInPublicNamePath\Format-Pester.psd1" -PathType Leaf } | Should be $true
                     
                 }
                 
