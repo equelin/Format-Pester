@@ -8,7 +8,7 @@
 
 # culture="en-US"
 ConvertFrom-StringData @'
-		msg00 = 1.3.3
+		msg00 = 1.4.0
         msg01 = Table of Contents
         msg02 = Total Tests
         msg03 = Passed Tests
@@ -40,4 +40,7 @@ ConvertFrom-StringData @'
 		msg29 = Version of used language file is diffrent than than version of Format-Pester.ps1 file. Some texts can not be displayed correctly.
 		msg30 = Performing action for
 		msg31 = amount of results
+		#Type of encoding used for write text files
+		#Supported vales: ASCII,Unicode,UTF7,UTF8
+		msg32 = ASCII
 '@
