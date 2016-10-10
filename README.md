@@ -20,7 +20,7 @@ Currently available languages
 - en-US - English United Staes - main language
 - pl-PL - Polish
 
-If would you like add support for your language please read the section 'Information for translators'
+If would you like add support for your language please read the section [Information for translators](https://github.com/equelin/Format-Pester/wiki/Information-for-translators) in the project wiki.
 
 # Requirements
 
@@ -63,39 +63,17 @@ This command will document the results of the Pester's tests. Documents will be 
 
 - [Format-Pester](/doc/Format-Pester.md)
 
-# Contributors
-
-- Travis Plunk - [GitHub](https://github.com/TravisEz13) - [Twitter](https://twitter.com/TravisPlunk)
-- Wojciech Sciesinski - [GitHub](https://github.com/it-praktyk) - [Twitter](https://twitter.com/ITpraktyk)
-
 # Author
 
 **Erwan Quélin**
 - <https://github.com/equelin>
 - <https://twitter.com/erwanquelin>
 
-# Information for translators
-Format-Pester can be used to prepare reports in languages different than English but a language file for your PSCulture/language need to be available.
+# Contributors
 
-To translate required strings to your language please
-- read general information about PowerShell support for internationalization
- ```
- Get-Help about_Script_Internationalization
- ```
- online version about_Script_Internationalization available [here](https://technet.microsoft.com/en-us/library/hh847854.aspx).
-- create subfolder with your language/culture code under Public - e.g. xx-XX
-- copy the file [Format-Pester.psd1](/Public/en-US/Format-Pester.psd1) from Public\en-US\ to your xx-XX - please don't translate module manifest - files have the same name!
-- translate required strings
-- test - please use Pester, to skip non-translation related tests please use the command 
-```
-Invoke-Pester -Path .\tests\ -Tag Translations
-```
-you can also uncomment line in the Format-Pester.ps1 file (remember about re-import module with Force)
-```
-#$LocalizedStrings
-```
-- use the Language parameter if your PSCulture is different than required language for output   
-- submit your translation to public repo, pull requests are welcomed
+- Travis Plunk - [GitHub](https://github.com/TravisEz13) - [Twitter](https://twitter.com/TravisPlunk)
+- Wojciech Sciesinski - [GitHub](https://github.com/it-praktyk) - [Twitter](https://twitter.com/ITpraktyk)
+
 
 # [Version history](VERSIONS.md)
 
@@ -107,3 +85,5 @@ Licensed under the MIT License
 - updated examples - align them to v. 1.4.0 and PScribo 0.7.12.47
 - update VERSIONS.md
 - automate preparing example files
+- add link or comparison to http://relevantcodes.com/reportunit/
+- add support for NUnit style xml file -> restore PS objects from NUnit https://github.com/pester/Pester/blob/master/Functions/TestResults.ps1#L41
