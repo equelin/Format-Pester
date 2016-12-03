@@ -71,8 +71,20 @@ Function Format-Pester {
     This command will document the results of the Pester's tests. 
     Documents will be stored in the current path and they will be available in 3 formats (.html,.docx and .txt).
     
+    .EXAMPLE
+    Invoke-Pester -PassThru | Export-Clixml -Path .\Test-Result.xml
+    
+    Import-Clixml -Path .\Test-Result.xml | Format-Pester -Format .\ -BaseFileName Test-Result -Format HTML -FailedOnly
+    
+    The first command you can run e.g. on a server where PScribo and Format-Pester is not installed. The tests results will be stored in a file as xml representation of object.
+    
+    After copy the file to the computer where PScribo and Format-Pester are available you can generate report. The html file will be generated with results of failed tests only.
+    
     .LINK
     https://github.com/equelin/Format-Pester
+    
+    .LINK
+    https://github.com/iainbrighton/PScribo
         
     .NOTES
     Initial author: Erwan Quelin 
@@ -84,10 +96,7 @@ Function Format-Pester {
     LICENSE  
     Licensed under the MIT License - https://github.com/equelin/Format-Pester/blob/master/LICENSE
 
-    TODO
-    - Pester test need to be updated - yes, post factum TDD ;-)
-            
-  #>
+    #>
     
     [CmdletBinding(DefaultParameterSetName = 'AllParamSet')]
     [OutputType([IO.FileInfo])]
@@ -150,7 +159,7 @@ Function Format-Pester {
         [Switch]$DumpPScriboObject
     )
     
-    [Version]$ScriptVersion = "1.4.0"
+    [Version]$ScriptVersion = "1.4.1"
     
     If ($Version.IsPresent) {
         
