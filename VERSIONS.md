@@ -7,7 +7,6 @@
 ## 1.2.0 - 2016-07-20
 
 ## 1.3.0 - 2016-08-14
- - 
 
 ## 1.3.1 - 2016-08-14
  - Fix: added explicit Throw for null or empty PesterResult parameter
@@ -23,3 +22,8 @@
  - Update
    - help: descriptions of INPUTS, OUTPUTS added
    - possibility to dump the PScribo Document object added
+
+## 1.4.1 - 2016-12-04
+  - Update
+    - help: an example added, link to PScribo added
+    - module manifest: added link to the VERSION.md
