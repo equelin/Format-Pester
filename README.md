@@ -9,7 +9,7 @@ Reports are generated base on a custom PowerShell object returned by Invoke-Pest
 
 If you can't generate report on a computer where tests are executed please save tests results piping them to `Export-Clixml`.
 
-You can be interested also in the [ReportUnit](http://reportunit.relevantcodes.com/) tool what is a report generator for the test-runner family. It uses stock reports from NUnit, MsTest, xUnit, TestNG and Gallio and converts them HTML reports with dashboards. 
+You can be interested also in the [ReportUnit](https://github.com/reportunit/reportunit) tool what is a report generator for the test-runner family. It uses stock reports from NUnit, MsTest, xUnit, TestNG and Gallio and converts them HTML reports with dashboards.
 
 ## Report example
 
