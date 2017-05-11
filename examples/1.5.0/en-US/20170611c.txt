@@ -1,0 +1,100 @@
+Table of Contents
+------------------------------------------------------------------------------------------------------------------------
+1.	Results summary
+2.	 Details for skipped tests
+3.	 Details for failed tests
+4.	 Details for inconclusive tests
+5.	 Details for passed tests
+6.	 Details for pending tests
+
+
+1.	Results summary
+------------------------------------------------------------------------------------------------------------------------
+
+Total Tests Passed Tests Failed Tests Skipped Tests Pending Tests Inconclusive Tests
+----------- ------------ ------------ ------------- ------------- ------------------
+         43           14           13             3             3                 10
+
+
+2.	 Details for skipped tests
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                 
+--------               -------            ----                                 
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - skipped S-1-1-7
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - skipped S-1-1-8
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - skipped S-1-2-6
+
+
+3.	 Details for failed tests
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                      Failure Message                                            
+-------            ----                                      ---------------                                            
+Useless test R-1-1 does something useful R-1-1-1             Expected: {True}                                           
+                                                             But was:  {0}                                              
+Useless test R-1-1 does something useful R-1-1-3             Expected {97} to be less than {79}                         
+Useless test R-1-2 does something  useless R-1-2-1           Expected: {30}                                             
+                                                             But was:  {28}                                             
+Useless test R-1-2 does something useful R-1-2-3             Expected {59} to be less than {17}                         
+Useless test R-1-2 does something useless R-1-2-6 or Skipped Expected {92} to be less than {61}                         
+Useless test S-1-1 does something useful S-1-1-1             Expected {5} to be less than {3}                           
+Useless test S-1-2 does something  useless S-1-2-1           Expected: {5}                                              
+                                                             But was:  {6}                                              
+Useless test S-1-2 does something useful S-1-2-4             Expected: value was {2}, but should not have been the same 
+Useless test R-2-1 does something useful R-2-1-2             Expected {7} to be less than {7}                           
+Useless test R-2-1 does something useful R-2-1-3             Expected {72} to be less than {53}                         
+Useless test R-2-2 does something  useless R-2-2-1           Expected: {30}                                             
+                                                             But was:  {29}                                             
+Useless test S-2-1 does something useful S-2-2-5             Expected: value was {56}, but should not have been the same
+Useless test S-2-2 does something  useless S-2-2-3           Expected {2} to be greater than {3}                        
+
+
+4.	 Details for inconclusive tests
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                           Inconclusive Message                  
+-------            ----                                           --------------------                  
+Useless test R-1-1 does something useful R-1-1-4 or Inconclusive  Inconclusive result - random - R-1-1-4
+Useless test R-1-1 does something useless R-1-1-5 or Inconclusive Inconclusive result - random - R-1-1-5
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-4  Inconclusive by design 1              
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-5  Inconclusive by design 2              
+Useless test S-1-2 doesn't do nothing - is inconclusive S-1-2-5   Inconclusive by design 3              
+Useless test R-2-1 does something useless R-2-1-3 or Inconclusive Inconclusive result - random - R-1-1-5
+Useless test R-2-1 does something useless R-2-1-4 or Inconclusive Inconclusive result - random - R-1-1-5
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-3   Inconclusive by design 1              
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-4   Inconclusive by design 2              
+Useless test S-2-2 doesn't do nothing - is inconclusive S-2-2-1   Inconclusive by design 3              
+
+
+5.	 Details for passed tests
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                          
+--------               -------            ----                                          
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-2                 
+DemoFunction1 - Random Useless test R-1-2 does something  useless R-1-2-2               
+DemoFunction1 - Random Useless test R-1-2 does something useless R-1-2-4 or Inconclusive
+DemoFunction1 - Random Useless test R-1-2 does something useless R-1-2-5 or Pending     
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-2                 
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-3                 
+DemoFunction1 - Static Useless test S-1-2 does something  useless S-1-2-2               
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-1                 
+DemoFunction2 - Random Useless test R-2-2 does something  useless R-2-2-2               
+DemoFunction2 - Random Useless test R-2-2 does something useful R-2-2-3                 
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-1-1                 
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-2-2                 
+DemoFunction2 - Static Useless test S-2-2 does something  useless S-2-2-2               
+DemoFunction2 - Static Useless test S-2-2 does something useful S-2-2-4                 
+
+
+6.	 Details for pending tests
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                   
+--------               -------            ----                                   
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - pending - S-1-1-6
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - pending - S-1-2-3
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - pending S-1-1-7  
+
+
