@@ -4,3 +4,4 @@
 - updated examples - align them to v. 1.4.0 and PScribo 0.7.12.47
 - update VERSIONS.md
 - automate preparing example files
+- add support for tests with a result of "Inconclusive"
