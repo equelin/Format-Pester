@@ -2,7 +2,7 @@ $script:mockedTestResultCount =0
 function New-MockedTestResult
 {
     param(
-        [ValidateSet('Passed','Failed')]
+        [ValidateSet('Passed', 'Failed', 'Skipped', 'Pending', 'Inconclusive')]
         [String] $Result = 'Passed'
     )
 
@@ -30,6 +30,7 @@ function New-MockedTestResultCollection
         [int] $failedCount = 0,
         [int] $skippedCount = 0,
         [int] $pendingCount = 0,
+        [int] $inconclusiveCount = 0,
         [object[]] $testResult
     )
         $mockedTestResult = [PSCustomObject] @{
@@ -37,7 +38,8 @@ function New-MockedTestResultCollection
             FailedCount = $failedCount
             SkippedCount = $skippedCount
             PendingCount = $pendingCount
-            TotalCount = $passedCount+$failedCount+$skippedCount+$pendingCount
+            InconclusiveCount = $inconclusiveCount
+            TotalCount = $passedCount+$failedCount+$skippedCount+$pendingCount+$inconclusiveCount
             TestResult = $testResult
         }
         return $mockedTestResult
@@ -67,10 +69,13 @@ Describe 'Unit tests for Format-Pester' {
     }
 
     Context 'Format HTML' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1 `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
@@ -87,10 +92,13 @@ Describe 'Unit tests for Format-Pester' {
     }
 
     Context 'Format Word' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1  `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
@@ -105,10 +113,13 @@ Describe 'Unit tests for Format-Pester' {
     }
 
     Context 'Format Text' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1  `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
@@ -123,10 +134,13 @@ Describe 'Unit tests for Format-Pester' {
     }
 
     Context 'Format Word and HTML' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1  `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         Mock -CommandName Export-Document  -MockWith {} -ModuleName Format-Pester
@@ -136,15 +150,18 @@ Describe 'Unit tests for Format-Pester' {
         }
 
         it 'should have called export document without NoPageLayoutStyle option' {
-            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {!$options.NoPageLayoutStyle}
+            Assert-MockCalled -CommandName Export-Document -ModuleName Format-Pester -ParameterFilter {$options.NoPageLayoutStyle}
         }
     }
 
     Context 'BaseFileName specified' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1  `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         $logFolder = 'TestDrive:\logs'
@@ -162,10 +179,13 @@ Describe 'Unit tests for Format-Pester' {
     }
 
     Context 'BaseFileName not specified' {
-        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 `
+        $mockedTestResult = New-MockedTestResultCollection -passedCount 1 -failedCount 1 -skippedCount 1 -pendingCount 1 -InconclusiveCount 1  `
             -testResult @(
                 New-MockedTestResult -Result Passed
                 New-MockedTestResult -Result Failed
+                New-MockedTestResult -Result Skipped
+                New-MockedTestResult -Result Pending
+                New-MockedTestResult -Result Inconclusive
             )
 
         $logFolder = 'TestDrive:\logs'

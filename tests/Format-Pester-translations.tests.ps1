@@ -126,7 +126,7 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
 
         It "Compare version of en-US translation with version of module" {
 
-            $GlobalenUSLocalizedStrings.msg00 | Should be $ModuleVersion
+            $GlobalenUSLocalizedStrings.msgA000 | Should be $ModuleVersion
 
         }
 
@@ -197,7 +197,7 @@ Describe -Name "Unit tests for $GlobalModuleName translations" -Tag 'Translation
 
                 It "Compare version of $SubfolderInPublicName translation with version of module" {
 
-                    $GlobalCurrentLanguageLocalizedStrings.msg00 | Should be $ModuleVersion
+                    $GlobalCurrentLanguageLocalizedStrings.msgA000 | Should be $ModuleVersion
 
                 }
 
