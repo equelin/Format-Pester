@@ -19,7 +19,7 @@
 
 - Fix issue #14
 
-##  1.4.0 - 2016-09-04
+## 1.4.0 - 2016-09-04
 
 - Fix issue #12
 - Updates
@@ -53,3 +53,9 @@
   - Added support for returning refecences to created files - the PassThru parameter
   - the structure of translations files changed
   - formating of document sections updated
+
+## 1.5.1 - 2017-06-16
+
+- Fix
+  - links in a table of content corrected - #29
+  - parameter sets for the parameter DumpPScriboObject corrected - #31

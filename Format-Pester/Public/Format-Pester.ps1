@@ -230,7 +230,6 @@ Function Format-Pester {
         [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
         [String]$Language = $($(Get-Culture).Name),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
@@ -255,7 +254,7 @@ Function Format-Pester {
 
     )
 
-    [Version]$ScriptVersion = "1.5.0"
+    [Version]$ScriptVersion = "1.5.1"
 
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language -ErrorAction SilentlyContinue
@@ -315,7 +314,7 @@ Function Format-Pester {
     $PScriboObject = Document $BaseFileName {
 
         # Document options
-        DocumentOption -PageSize A4
+        DocumentOption -PageSize A4 -EnableSectionNumbering
 
         #Variables used to create numbers for TOC and subsections
         $Head1Counter = 1
@@ -352,7 +351,7 @@ Function Format-Pester {
             Style -Name SummaryRow -Color Black -BackgroundColor White -Align Center
 
             # Results Summary
-            $ResultsSummaryTitle = "{0}.`t{1}" -f $Head1Counter, $LocalizedStrings.msgA008
+            $ResultsSummaryTitle = $LocalizedStrings.msgA008
 
             $Head1Counter++
 
@@ -601,15 +600,11 @@ Function Format-Pester {
 
                 Write-Verbose -Message $MessageText
 
-                $Head2counter = 1
-
-                $Head3counter = 1
-
                 $CurrentPesterTestResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq $CurrentResultType }
 
                 If ($GroupResultsBy -eq 'Result') {
 
-                    [String]$Header1Title = "{0}.`t {1}" -f $Head1counter, $Header1TitlePart
+                    [String]$Header1Title = $Header1TitlePart
 
                     Section -Name $Header1Title -Style Heading1   {
 
@@ -618,12 +613,10 @@ Function Format-Pester {
 
                     }
 
-                    $Head1counter++
-
                 }
                 Else {
 
-                    Section -Name "$Head1Counter.`t $Head1SectionTitle " -Style Heading1 -ScriptBlock {
+                    Section -Name $Head1SectionTitle -Style Heading1 -ScriptBlock {
 
                         #Get unique 'Describe' from Pester results
                         [Array]$Headers2 = $CurrentPesterTestResults | Select-Object -Property Describe -Unique
@@ -635,9 +628,7 @@ Function Format-Pester {
 
                             Write-Verbose -Message $MessageText
 
-                            $SubHeader2Number = "{0}.{1}" -f $Head1Counter, $Head2counter
-
-                            [String]$Header2Title = "{0}.`t {1} {2}" -f $SubHeader2Number, $Header2TitlePart, $($Header2.Describe)
+                            [String]$Header2Title = "{0} {1}" -f $Header2TitlePart, $($Header2.Describe)
 
                             Section -Name $Header2Title -Style Heading2 -ScriptBlock {
 
@@ -663,9 +654,7 @@ Function Format-Pester {
 
                                         $CurrentPesterTestResultsCount3 = ($CurrentPesterTestResults3 | Measure-Object).Count
 
-                                        $SubHeader3Number = "{0}.{1}.{2}" -f $Head1Counter, $Head2counter, $Head3counter
-
-                                        [String]$Header3Title = "{0}.`t {1} {2}" -f $SubHeader3Number, $Header3TitlePart, $($Header3.Context)
+                                        [String]$Header3Title = "{0} {1}" -f $Header3TitlePart, $($Header3.Context)
 
                                         Section -Name $Header3Title -Style Heading3 -ScriptBlock {
 
@@ -676,8 +665,6 @@ Function Format-Pester {
                                             $CurrentPesterTestResults3 |
                                             Table -Columns $TestsResultsColumnsData -ColumnWidths @(34,33,33) -Headers $TestsResultsColumnsHeaders -Width 90
                                         }
-
-                                        $Head3Counter++
 
                                     }
 
@@ -694,8 +681,6 @@ Function Format-Pester {
                                 }
 
                             }
-
-                            $Head2counter++
 
                         } #end foreach ($Header2 in $Headers2)
 
@@ -725,7 +710,7 @@ Function Format-Pester {
 
         foreach($key in $exportParams.Keys){
 
-            Write-Verbose -message "\`t $key $($exportParams[$key])"
+            Write-Verbose -message "    $key $($exportParams[$key])"
 
         }
 
