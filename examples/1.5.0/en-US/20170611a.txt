@@ -1,0 +1,191 @@
+Table of Contents
+------------------------------------------------------------------------------------------------------------------------
+1.	Results summary
+2.	 Failed tests 
+ 2.1.	 Details for failed tests by Describe block: DemoFunction1 - Random
+ 2.2.	 Details for failed tests by Describe block: DemoFunction1 - Static
+ 2.3.	 Details for failed tests by Describe block: DemoFunction2 - Random
+ 2.4.	 Details for failed tests by Describe block: DemoFunction2 - Static
+3.	 Passed tests 
+ 3.1.	 Details for passed tests by Describe block: DemoFunction1 - Random
+ 3.2.	 Details for passed tests by Describe block: DemoFunction1 - Static
+ 3.3.	 Details for passed tests by Describe block: DemoFunction2 - Random
+ 3.4.	 Details for passed tests by Describe block: DemoFunction2 - Static
+4.	 Skipped Tests 
+ 4.1.	 Details for skipped tests by Describe block: DemoFunction1 - Static
+5.	 Pending Tests 
+ 5.1.	 Details for pending tests by Describe block: DemoFunction1 - Random
+ 5.2.	 Details for pending tests by Describe block: DemoFunction1 - Static
+6.	 Inconclusive Tests 
+ 6.1.	 Details for inconclusive tests by Describe block: DemoFunction1 - Random
+ 6.2.	 Details for inconclusive tests by Describe block: DemoFunction1 - Static
+ 6.3.	 Details for inconclusive tests by Describe block: DemoFunction2 - Static
+
+
+1.	Results summary
+------------------------------------------------------------------------------------------------------------------------
+
+Total Tests Passed Tests Failed Tests Skipped Tests Pending Tests Inconclusive Tests
+----------- ------------ ------------ ------------- ------------- ------------------
+         43           17           12             3             4                  7
+
+
+2.	 Failed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.	 Details for failed tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                           Failure Message                      
+-------            ----                                           ---------------                      
+Useless test R-1-1 does something useful R-1-1-3                  Expected {91} to be less than {16}   
+Useless test R-1-1 does something useful R-1-1-4 or Inconclusive  Expected {82} to be less than {10}   
+Useless test R-1-1 does something useless R-1-1-5 or Inconclusive Expected {95} to be less than {44}   
+Useless test R-1-2 does something  useless R-1-2-2                Expected {22} to be greater than {30}
+
+
+2.2.	 Details for failed tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                                           
+-------            ----                            ---------------                                           
+Useless test S-1-1 does something useful S-1-1-1   Expected {5} to be less than {3}                          
+Useless test S-1-2 does something  useless S-1-2-1 Expected: {5}                                             
+                                                   But was:  {6}                                             
+Useless test S-1-2 does something useful S-1-2-4   Expected: value was {2}, but should not have been the same
+
+
+2.3.	 Details for failed tests by Describe block: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                   
+-------            ----                            ---------------                   
+Useless test R-2-1 does something useful R-2-1-1   Expected: {True}                  
+                                                   But was:  {0}                     
+Useless test R-2-2 does something  useless R-2-2-1 Expected: {30}                    
+                                                   But was:  {29}                    
+Useless test R-2-2 does something useful R-2-2-3   Expected {61} to be less than {33}
+
+
+2.4.	 Details for failed tests by Describe block: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                            Failure Message                                            
+-------            ----                            ---------------                                            
+Useless test S-2-1 does something useful S-2-2-5   Expected: value was {56}, but should not have been the same
+Useless test S-2-2 does something  useless S-2-2-3 Expected {2} to be greater than {3}                        
+
+
+3.	 Passed tests 
+------------------------------------------------------------------------------------------------------------------------
+
+3.1.	 Details for passed tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                     
+--------               -------            ----                                     
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-1            
+DemoFunction1 - Random Useless test R-1-1 does something useful R-1-1-2            
+DemoFunction1 - Random Useless test R-1-2 does something  useless R-1-2-1          
+DemoFunction1 - Random Useless test R-1-2 does something useful R-1-2-3            
+DemoFunction1 - Random Useless test R-1-2 does something useless R-1-2-6 or Skipped
+
+
+3.2.	 Details for passed tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                           
+--------               -------            ----                           
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-2  
+DemoFunction1 - Static Useless test S-1-1 does something useful S-1-1-3  
+DemoFunction1 - Static Useless test S-1-2 does something  useless S-1-2-2
+
+
+3.3.	 Details for passed tests by Describe block: DemoFunction2 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                          
+--------               -------            ----                                          
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-2                 
+DemoFunction2 - Random Useless test R-2-1 does something useless R-2-1-3 or Inconclusive
+DemoFunction2 - Random Useless test R-2-1 does something useless R-2-1-4 or Inconclusive
+DemoFunction2 - Random Useless test R-2-1 does something useful R-2-1-3                 
+DemoFunction2 - Random Useless test R-2-2 does something  useless R-2-2-2               
+
+
+3.4.	 Details for passed tests by Describe block: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                           
+--------               -------            ----                           
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-1-1  
+DemoFunction2 - Static Useless test S-2-1 does something useful S-2-2-2  
+DemoFunction2 - Static Useless test S-2-2 does something  useless S-2-2-2
+DemoFunction2 - Static Useless test S-2-2 does something useful S-2-2-4  
+
+
+4.	 Skipped Tests 
+------------------------------------------------------------------------------------------------------------------------
+
+4.1.	 Details for skipped tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                 
+--------               -------            ----                                 
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - skipped S-1-1-7
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - skipped S-1-1-8
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - skipped S-1-2-6
+
+
+5.	 Pending Tests 
+------------------------------------------------------------------------------------------------------------------------
+
+5.1.	 Details for pending tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                     
+--------               -------            ----                                     
+DemoFunction1 - Random Useless test R-1-2 does something useless R-1-2-5 or Pending
+
+
+5.2.	 Details for pending tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Describe               Context            Name                                   
+--------               -------            ----                                   
+DemoFunction1 - Static Useless test S-1-1 doesn't do anything - pending - S-1-1-6
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - pending - S-1-2-3
+DemoFunction1 - Static Useless test S-1-2 doesn't do anything - pending S-1-1-7  
+
+
+6.	 Inconclusive Tests 
+------------------------------------------------------------------------------------------------------------------------
+
+6.1.	 Details for inconclusive tests by Describe block: DemoFunction1 - Random
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                           Inconclusive Message        
+-------            ----                                           --------------------        
+Useless test R-1-2 does something useless R-1-2-4 or Inconclusive Inconclusive result - random
+
+
+6.2.	 Details for inconclusive tests by Describe block: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                          Inconclusive Message    
+-------            ----                                          --------------------    
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-4 Inconclusive by design 1
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-5 Inconclusive by design 2
+Useless test S-1-2 doesn't do nothing - is inconclusive S-1-2-5  Inconclusive by design 3
+
+
+6.3.	 Details for inconclusive tests by Describe block: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Name                                         Inconclusive Message    
+-------            ----                                         --------------------    
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-3 Inconclusive by design 1
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-4 Inconclusive by design 2
+Useless test S-2-2 doesn't do nothing - is inconclusive S-2-2-1 Inconclusive by design 3
+
+
