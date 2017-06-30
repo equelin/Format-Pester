@@ -10,7 +10,9 @@ Function Format-Pester {
     Additional languages (other than en-US) can be used - please read info for translator on the project web page.
 
     .PARAMETER PesterResult
-    Specifies the Pester results Object
+    Specifies the Pester results object.
+
+    An results objects is returned by Pester when the PassThru parameter is used to to run Invoke-Pester.
 
     .PARAMETER Format
     Specifies the document format. Might be:
@@ -22,7 +24,12 @@ Function Format-Pester {
     Specifies where the documents will be stored. Default is the path where is executed this function.
 
     .PARAMETER BaseFileName
-    Specifies the document name. Default is 'Pester_Results'.
+    Specifies a name for file(s) what will be created. Default is 'Pester_Results'.
+
+    .PARAMETER ReportTitle
+    Specifies a title of generated document.
+
+    The document title will be included at the main header level of created document.
 
     .PARAMETER ResultsOrder
     Specify in which order tests results need to be evaluated - menas included in a report.
@@ -60,12 +67,21 @@ Function Format-Pester {
     Select to return information about failed tests only.
 
     .PARAMETER SummaryOnly
+
+    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+
     Select to return only summaries for tests only (sums of numbers passed/failed/etc. tests).
 
     .PARAMETER SkipTableOfContent
+
+    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+
     Select to skip adding table of content at the begining of document(s).
 
     .PARAMETER SkipSummary
+
+    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+
     Select to skip adding table with test summaries (sums of numbers passed/failed/etc. tests).
 
     .PARAMETER Language
@@ -130,122 +146,142 @@ Function Format-Pester {
     [OutputType([IO.FileInfo])]
     Param (
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $True, ValueFromPipelinebyPropertyName = $True, HelpMessage = 'Pester results Object', ParameterSetName = 'VersionOnlyParamSet')]
         [Array]$PesterResult,
 
         [Parameter(Mandatory = $true, HelpMessage = 'PScribo export format', ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $true, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $true, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $true, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $true, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $true, ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $true, ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
         [ValidateSet('Text', 'Word', 'HTML')]
         [String[]]$Format,
 
         [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, HelpMessage = 'PScribo export path', ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
         [ValidateNotNullorEmpty()]
         [String]$Path = (Get-Location -PSProvider FileSystem),
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
         [ValidateNotNullorEmpty()]
         [string]$BaseFileName = 'Pester_Results',
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
+        [Alias('Title')]
+        [String]$ReportTitle,
+
+        [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [String[]]$ResultsOrder,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [ValidateSet('FailedFirst', 'PassedFirst')]
         [String]$Order,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [ValidateSet('Result', 'Result-Describe', 'Result-Describe-Context')]
         [String]$GroupResultsBy = 'Result',
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
         [ValidateNotNullorEmpty()]
-        [ValidateSet('All', 'Passed', 'Failed', 'Skipped', 'Pending', 'Inconclusive')]
+        [ValidateSet('All', 'Passed', 'Failed', 'Skipped', 'Pending', 'Inconclusive', 'Title', 'Summary','TOC')]
         [String[]]$Include = 'All',
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Switch]$PassedOnly,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Switch]$FailedOnly,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [switch]$SummaryOnly,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Switch]$SkipTableOfContent,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Switch]$SkipSummary,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [String]$Language = $($(Get-Culture).Name),
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'DumpPScriboObjectParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'DumpPScriboObjectParamSet')]
         [Switch]$DumpPScriboObject,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'AllParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'ResultOrderParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'ResultsOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedOrderParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'IncludeParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PassedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'FailedOnlyParamSet')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'SummaryOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedPassedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedFailedOnlyParamSet')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'DeprecatedSummaryOnlyParamSet')]
         [Parameter(Mandatory = $false, ParameterSetName = 'PassThruParamSet')]
         [Switch]$PassThru,
 
@@ -254,7 +290,7 @@ Function Format-Pester {
 
     )
 
-    [Version]$ScriptVersion = "1.5.1"
+    [Version]$ScriptVersion = "1.5.2"
 
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language -ErrorAction SilentlyContinue
@@ -296,18 +332,70 @@ Function Format-Pester {
 
     }
 
-    $TextFileEncoding = $LocalizedStrings.msgA018
-
     $exportParams = @{ }
+
     if ($Format -contains 'HTML') {
 
         $exportParams = $exportParams + @{"NoPageLayoutStyle"= $true}
 
     }
 
-    if ($Format -contains 'text' -and $TextFileEncoding -ne 'ASCII') {
+    if ($Format -contains 'text' -and $LocalizedStrings.msgA018 -ne 'ASCII') {
 
-        $exportParams = $exportParams + @{"Encoding" = $TextFileEncoding}
+        $exportParams = $exportParams + @{"Encoding" = $LocalizedStrings.msgA018}
+
+    }
+
+    $DeprecatedParameters = @{'PassedOnly' = 'Include';
+                            'FailedOnly' = 'Include';
+                            'SkipTableOfContent'='Include';
+                            'SkipSummary' = 'Include';
+                            'SummaryOnly' = 'Include';
+                            'PassedFirst' = 'ResultsOrder';
+                            'FailedFirst' = 'ResultsOrder'}
+
+    ForEach ( $DeprecatedParameter in $DeprecatedParameters.keys) {
+
+        if ($PSBoundParameters.ContainsKey( $DeprecatedParameter )) {
+
+                [String]$MessageText = $LocalizedStrings.msgX001 -f $DeprecatedParameter, $DeprecatedParameters[$DeprecatedParameter]
+
+                Write-Warning -Message $MessageText
+
+        }
+
+    }
+
+    #Initiate SkipSomethingInternal parameters
+    [Bool]$SkipTableOfContentInternal = $false
+
+    [Bool]$SkipSummaryInternal = $false
+
+    #Evaluate values of deprecated parameters and translate it to internal parameters
+
+    If ( $SkipTableOfContent.IsPresent) {
+
+        $SkipTableOfContentInternal = $true
+
+    }
+
+    If ( $SkipSummary.IsPresent) {
+
+        $SkipSummaryInternal = $true
+
+    }
+
+    #Evaluate Inlucde parameter values and translate it to internal parameters
+
+    If ( $Include -notcontains 'TOC' -and $Include -notcontains 'All' ) {
+
+        $SkipTableOfContentInternal = $true
+
+    }
+
+    If ( $Include -notcontains 'Summary' -and $Include -notcontains 'All' ) {
+
+        $SkipSummaryInternal = $true
 
     }
 
@@ -316,10 +404,15 @@ Function Format-Pester {
         # Document options
         DocumentOption -PageSize A4 -EnableSectionNumbering
 
-        #Variables used to create numbers for TOC and subsections
-        $Head1Counter = 1
+        If ( -not [String]::IsNullOrEmpty($ReportTitle) -and ($Include -contains 'All' -or $Include -contains 'Title') ) {
 
-        If (-not $SkipTableOfContent.IsPresent) {
+            Style -Name Title -Size 18 -Color 0072af;
+
+            Paragraph -Style Title $ReportTitle
+
+        }
+
+        If (-not $SkipTableOfContent ) {
 
             # Table of content header text
             [String]$TOCName = $LocalizedStrings.msgA001
@@ -337,7 +430,7 @@ Function Format-Pester {
         #ValidResulsts are used by ResultsOrder too
         $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount } | Sort-Object -Property FailedCount -Descending
 
-        If (-not $SkipSummary.IsPresent) {
+        If (-not $SkipSummaryInternal ) {
 
             # Columns used for the summary table
 
@@ -352,8 +445,6 @@ Function Format-Pester {
 
             # Results Summary
             $ResultsSummaryTitle = $LocalizedStrings.msgA008
-
-            $Head1Counter++
 
             Section -Name $ResultsSummaryTitle -Style Heading1 -ScriptBlock {
 
@@ -379,18 +470,11 @@ Function Format-Pester {
 
             If ( $PassedOnly.IsPresent -and $PesterResult.PassedCount -gt 0 ) {
 
-                [String]$MessageText = $LocalizedStrings.msgX001 -f "PassedOnly"
-
-                Write-Warning -Message "Passed" # $MessageText
-
                 $EvaluateResults += 'Passed'
 
             }
             Elseif( $FailedOnly.IsPresent -and $PesterResult.FailedCount -gt 0) {
 
-                [String]$MessageText = $LocalizedStrings.msgX001 -f "FailedOnly"
-
-                Write-Warning -Message $MessageText
 
                 $EvaluateResults += 'Failed'
 
@@ -410,10 +494,6 @@ Function Format-Pester {
 
                 If ( $Order -eq 'PassedFirst' ) {
 
-                    [String]$MessageText = $LocalizedStrings.msgX002
-
-                    Write-Warning -Message $MessageText
-
                     $ResultsOrderInternal = @('Passed', 'Failed', 'Skipped', 'Pending', 'Inconclusive')
 
                     If ( $IncludeInternal -notcontains 'Passed' ) {
@@ -426,10 +506,6 @@ Function Format-Pester {
 
                 }
                 ElseIf ( $Order -eq 'FailedFirst' ) {
-
-                    [String]$MessageText = $LocalizedStrings.msgX002
-
-                    Write-Warning -Message $MessageText
 
                     $ResultsOrderInternal = @('Failed', 'Passed', 'Skipped', 'Pending', 'Inconclusive')
 
@@ -491,7 +567,7 @@ Function Format-Pester {
 
                 }
 
-                If ( $MissedResultsNames.count -gt 0 ) {
+                If ( $MissedResultsNames.Count -gt 0 ) {
 
                     ForEach ( $CurrentMissedResultName in $MissedResultsNames ) {
 
@@ -685,8 +761,6 @@ Function Format-Pester {
                         } #end foreach ($Header2 in $Headers2)
 
                     }
-
-                    $Head1Counter++
 
                 } #end $GroupResultsBy -ne 'Result'
 

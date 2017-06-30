@@ -14,7 +14,7 @@ RootModule = 'Format-Pester.psm1'
 # Version number of this module.
 # If you are increasing ModuleVersion please change also the values of variable 'ScriptVersion' in the Format-Pester.ps1 file
 # Verify also translations and increase the values of msg00 fields
-ModuleVersion = '1.5.1'
+ModuleVersion = '1.5.2'
 
 # ID used to uniquely identify this module
 GUID = 'daa609a5-1293-4f62-9467-1a120c529e87'
@@ -50,7 +50,7 @@ PowerShellVersion = '4.0'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('pester','pscribo')
+RequiredModules = @('Pester','PScribo')
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()

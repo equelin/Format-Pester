@@ -17,7 +17,7 @@
 
 # culture = "en-US"
 ConvertFrom-StringData @'
-    msgA000 = 1.5.1
+    msgA000 = 1.5.2
     msgA001 = Table of Contents
     msgA002 = Total Tests
     msgA003 = Passed Tests
@@ -42,8 +42,8 @@ ConvertFrom-StringData @'
     msgA020 = The test result named: '{0}' is duplicated in the ResultOrder parameter values. It will be skipped to avoid duplicating of a report section.
     msgA021 = The test result named: '{0}' in unrecognized and will not be included in a report.
     msgA022 = Documents will be exported with options:
-    msgX001 = The parameter '{0}' is deprecated and will be removed in the further version of Format-Pester. Please use the parameters Include instead.
-    msgX002 = The parameter Order is deprecated and will be removed in the further version of Format-Pester. Please use the parameter ResultOrder instead."
+    msgX001 = The parameter '{0}' is deprecated and will be removed in the further version of Format-Pester. Please use the parameters '{1}' instead.
+    # msgX002 NOT_EXISTS
     msgX003 = The parameter PassedFirst parameter was used but passed results are not included in the report.
     msgX004 = The parameter FailedFirst parameter was used but failed results are not included in the report.
     msgB000 = Passed

@@ -17,7 +17,7 @@
 
 # culture="pl-PL"
 ConvertFrom-StringData @'
-    msgA000=1.5.1
+    msgA000=1.5.2
     msgA001=Spis treści
     msgA002=Testy ogółem
     msgA003=Testy zdane
@@ -42,8 +42,8 @@ ConvertFrom-StringData @'
     msgA020 = Nazwa wyniku testu: '{0}' jest powielona w wartości parametru ResultOrder. Duplikat zostanie pominięty by uniknąć powielenia sekcji dokumentu.
     msgA021 = Nazwa wyniku testu: '{0}' jest nierozpoznana i nie zostanie uwzględniona w dokumencie. Muszą zostać użyte angielskie nazwy wyników testów.
     msgA022 = Dokumenty zostaną wyeksportowane przy użyciu ustawień:
-    msgX001 = Użycie parametru '{0}' jest niepożądane gdyż zostanie on usunięty w przyszłej wersji Format-Pester. Proszę użyć parametru Include.
-    msgX002 = Użycie parametru Order jest niepożądane gdyż zostanie on usunięty w przyszłej wersji Format-Pester. Proszę użyć parametru ResultOrder.
+    msgX001 = Użycie parametru '{0}' jest niepożądane gdyż zostanie on usunięty w przyszłej wersji Format-Pester. Proszę użyć parametru '{1}'.
+    #msgX002 = NOT_EXISTS
     msgX003 = Został użyty parametr PassedFirst ale rezultaty zdanych testów nie są ujęte w raporcie.
     msgX004 = Został użyty parametr FailedFirst ale rezultaty niezdanych testów nie są ujęte w raporcie.
     msgB000=Zdane
