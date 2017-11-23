@@ -68,19 +68,19 @@ Function Format-Pester {
 
     .PARAMETER SummaryOnly
 
-    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+    Since the version 1.6.0 a usage of the Order parameter is deprecated. Please use Include instead.
 
     Select to return only summaries for tests only (sums of numbers passed/failed/etc. tests).
 
     .PARAMETER SkipTableOfContent
 
-    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+    Since the version 1.6.0 a usage of the Order parameter is deprecated. Please use Include instead.
 
     Select to skip adding table of content at the begining of document(s).
 
     .PARAMETER SkipSummary
 
-    Since the version 1.5.2 a usage of the Order parameter is deprecated. Please use Include instead.
+    Since the version 1.6.0 a usage of the Order parameter is deprecated. Please use Include instead.
 
     Select to skip adding table with test summaries (sums of numbers passed/failed/etc. tests).
 
@@ -290,7 +290,7 @@ Function Format-Pester {
 
     )
 
-    [Version]$ScriptVersion = "1.5.2"
+    [Version]$ScriptVersion = "1.6.0"
 
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language -ErrorAction SilentlyContinue

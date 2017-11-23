@@ -17,7 +17,7 @@
 
 # culture = "en-US"
 ConvertFrom-StringData @'
-    msgA000 = 1.5.2
+    msgA000 = 1.6.0
     msgA001 = Table of Contents
     msgA002 = Total Tests
     msgA003 = Passed Tests

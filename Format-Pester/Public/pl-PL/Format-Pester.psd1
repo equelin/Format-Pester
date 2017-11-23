@@ -17,7 +17,7 @@
 
 # culture="pl-PL"
 ConvertFrom-StringData @'
-    msgA000=1.5.2
+    msgA000=1.6.0
     msgA001=Spis treści
     msgA002=Testy ogółem
     msgA003=Testy zdane

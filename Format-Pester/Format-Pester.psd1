@@ -14,7 +14,7 @@ RootModule = 'Format-Pester.psm1'
 # Version number of this module.
 # If you are increasing ModuleVersion please change also the values of variable 'ScriptVersion' in the Format-Pester.ps1 file
 # Verify also translations and increase the values of msg00 fields
-ModuleVersion = '1.5.2'
+ModuleVersion = '1.6.0'
 
 # ID used to uniquely identify this module
 GUID = 'daa609a5-1293-4f62-9467-1a120c529e87'
