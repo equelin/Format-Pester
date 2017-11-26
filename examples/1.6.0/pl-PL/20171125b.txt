@@ -1,0 +1,87 @@
+﻿
+1 Niezdane testy
+------------------------------------------------------------------------------------------------------------------------
+
+1.1 Szczegóły niezdanych testów dla bloku Describe: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+1.1.1 Szczegóły niezdanych testów dla bloku Context: Useless test S-1-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                         Komunikat niezdanego testu      
+-------            -----                         --------------------------      
+Useless test S-1-1 does something useful S-1-1-1 Expected {5} to be less than {3}
+
+
+1.1.2 Szczegóły niezdanych testów dla bloku Context: Useless test S-1-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu                                
+-------            -----                           --------------------------                                
+Useless test S-1-2 does something  useless S-1-2-1 Expected: {5}                                             
+                                                   But was:  {6}                                             
+Useless test S-1-2 does something useful S-1-2-4   Expected: value was {2}, but should not have been the same
+
+
+1.2 Szczegóły niezdanych testów dla bloku Describe: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+1.2.1 Szczegóły niezdanych testów dla bloku Context: Useless test S-2-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                         Komunikat niezdanego testu                                 
+-------            -----                         --------------------------                                 
+Useless test S-2-1 does something useful S-2-2-5 Expected: value was {56}, but should not have been the same
+
+
+1.2.2 Szczegóły niezdanych testów dla bloku Context: Useless test S-2-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                           Komunikat niezdanego testu         
+-------            -----                           --------------------------         
+Useless test S-2-2 does something  useless S-2-2-3 Expected {2} to be greater than {3}
+
+
+2 Nierozstrzygnięte testy
+------------------------------------------------------------------------------------------------------------------------
+
+2.1 Szczegóły nierozstrzygniętych testów dla bloku Describe: DemoFunction1 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+2.1.1 Szczegóły nierozstrzygniętych testów dla bloku Context: Useless test S-1-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                                         Komunikat nierozstrzygniętego testu
+-------            -----                                         -----------------------------------
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-4 Inconclusive by design 1           
+Useless test S-1-1 doesn't do anything - is inconclusive S-1-1-5 Inconclusive by design 2           
+
+
+2.1.2 Szczegóły nierozstrzygniętych testów dla bloku Context: Useless test S-1-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                                        Komunikat nierozstrzygniętego testu
+-------            -----                                        -----------------------------------
+Useless test S-1-2 doesn't do nothing - is inconclusive S-1-2-5 Inconclusive by design 3           
+
+
+2.2 Szczegóły nierozstrzygniętych testów dla bloku Describe: DemoFunction2 - Static
+------------------------------------------------------------------------------------------------------------------------
+
+2.2.1 Szczegóły nierozstrzygniętych testów dla bloku Context: Useless test S-2-1
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                                        Komunikat nierozstrzygniętego testu
+-------            -----                                        -----------------------------------
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-3 Inconclusive by design 1           
+Useless test S-2-1 doesn't do nothing - is inconclusive S-2-2-4 Inconclusive by design 2           
+
+
+2.2.2 Szczegóły nierozstrzygniętych testów dla bloku Context: Useless test S-2-2
+------------------------------------------------------------------------------------------------------------------------
+
+Context            Nazwa                                        Komunikat nierozstrzygniętego testu
+-------            -----                                        -----------------------------------
+Useless test S-2-2 doesn't do nothing - is inconclusive S-2-2-1 Inconclusive by design 3           
+
+

@@ -49,7 +49,7 @@
 - Updates
   - Added support for Skipped, Pending, Inconclusive tests results
   - Parameters related to sorting of sections changed: the parameter ResultsOrder added, the parameter Order deprecated
-  - Parameters to skipping/including sections changed: the parameter Include added, the parameter FailedOnly, Passed only deprecated
+  - Parameters to skipping/including sections changed: the parameter Include added, the parameter FailedOnly, PassedOnly deprecated
   - Added support for returning refecences to created files - the PassThru parameter
   - the structure of translations files changed
   - formating of document sections updated
@@ -59,3 +59,11 @@
 - Fix
   - links in a table of content corrected - #29
   - parameter sets for the parameter DumpPScriboObject corrected - #31
+
+## 1.6.0 - 2017-11-25
+
+- Updates
+  - An option to add a report title added
+  - Structure of the parameter set changed due to deprecation
+  - Warnings about deprecated parameters added
+  - Parameters to skipping/including sections changed: the parameters SkipTableOfContent, SkipSummary, SummaryOnly deprecated
