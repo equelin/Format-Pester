@@ -295,7 +295,7 @@ Function Format-Pester {
     #LocalizedStrings are not sorted alphabeticaly -even if you are using Sort-Object !
     Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture $Language -ErrorAction SilentlyContinue
 
-    If ([String]::IsNullOrEmpty($LocalizedStrings)) {
+    if ([String]::IsNullOrEmpty($LocalizedStrings)) {
 
         Import-LocalizedData -FileName Format-Pester.psd1 -BindingVariable LocalizedStrings -UICulture 'en-US' -ErrorAction Stop
 
@@ -305,14 +305,14 @@ Function Format-Pester {
 
     }
 
-    If ($Version.IsPresent) {
+    if ($Version.IsPresent) {
 
         Return $ScriptVersion.ToString()
 
         Break
 
     }
-    Else {
+    else {
 
         if ($null -eq $PesterResult) {
 
@@ -324,7 +324,7 @@ Function Format-Pester {
 
     }
 
-    If ($LocalizedStrings.msgA000 -ne $ScriptVersion) {
+    if ($LocalizedStrings.msgA000 -ne $ScriptVersion) {
 
         [String]$MessageText = "{0}" -f $LocalizedStrings.msgA015
 
@@ -368,32 +368,17 @@ Function Format-Pester {
 
     #Initiate SkipSomethingInternal parameters
     [Bool]$SkipTableOfContentInternal = $false
-
     [Bool]$SkipSummaryInternal = $false
 
-    #Evaluate values of deprecated parameters and translate it to internal parameters
+    #Evaluate the Include parameter values and translate it to internal parameters
 
-    If ( $SkipTableOfContent.IsPresent) {
-
-        $SkipTableOfContentInternal = $true
-
-    }
-
-    If ( $SkipSummary.IsPresent) {
-
-        $SkipSummaryInternal = $true
-
-    }
-
-    #Evaluate Inlucde parameter values and translate it to internal parameters
-
-    If ( $Include -notcontains 'TOC' -and $Include -notcontains 'All' ) {
+    if ( $SkipTableOfContent.IsPresent -or ($Include -notcontains 'TOC' -and $Include -notcontains 'All' )) {
 
         $SkipTableOfContentInternal = $true
 
     }
 
-    If ( $Include -notcontains 'Summary' -and $Include -notcontains 'All' ) {
+    if ( $SkipSummary.IsPresent -or ( $Include -notcontains 'Summary' -and $Include -notcontains 'All') ) {
 
         $SkipSummaryInternal = $true
 
@@ -404,7 +389,7 @@ Function Format-Pester {
         # Document options
         DocumentOption -PageSize A4 -EnableSectionNumbering
 
-        If ( -not [String]::IsNullOrEmpty($ReportTitle) -and ($Include -contains 'All' -or $Include -contains 'Title') ) {
+        if ( -not [String]::IsNullOrEmpty($ReportTitle) -and ($Include -contains 'All' -or $Include -contains 'Title') ) {
 
             Style -Name Title -Size 18 -Color 0072af;
 
@@ -412,7 +397,7 @@ Function Format-Pester {
 
         }
 
-        If (-not $SkipTableOfContent ) {
+        if (-not $SkipTableOfContentInternal ) {
 
             # Table of content header text
             [String]$TOCName = $LocalizedStrings.msgA001
@@ -430,7 +415,7 @@ Function Format-Pester {
         #ValidResulsts are used by ResultsOrder too
         $ValidResults = $PesterResult | Where-Object { $null -ne $_.TotalCount } | Sort-Object -Property FailedCount -Descending
 
-        If (-not $SkipSummaryInternal ) {
+        if (-not $SkipSummaryInternal ) {
 
             # Columns used for the summary table
 
@@ -461,14 +446,14 @@ Function Format-Pester {
 
         }
 
-        If (-not $SummaryOnly.IsPresent) {
+        if (-not $SummaryOnly.IsPresent) {
 
             #Expanding Pester summary to receive all tests results
             $PesterTestsResults = $PesterResult | Select-Object -ExpandProperty TestResult
 
             [Array]$EvaluateResults = $null
 
-            If ( $PassedOnly.IsPresent -and $PesterResult.PassedCount -gt 0 ) {
+            if ( $PassedOnly.IsPresent -and $PesterResult.PassedCount -gt 0 ) {
 
                 $EvaluateResults += 'Passed'
 
@@ -479,24 +464,24 @@ Function Format-Pester {
                 $EvaluateResults += 'Failed'
 
             }
-            Else {
+            else {
 
-                If ( $Include -contains 'All' ) {
+                if ( $Include -contains 'All' ) {
 
                     $IncludeInternal = $TestResultsNames
 
                 }
-                Else {
+                else {
 
                     $IncludeInternal = $Include
 
                 }
 
-                If ( $Order -eq 'PassedFirst' ) {
+                if ( $Order -eq 'PassedFirst' ) {
 
                     $ResultsOrderInternal = @('Passed', 'Failed', 'Skipped', 'Pending', 'Inconclusive')
 
-                    If ( $IncludeInternal -notcontains 'Passed' ) {
+                    if ( $IncludeInternal -notcontains 'Passed' ) {
 
                         [String]$MessageText = $LocalizedStrings.msgX003
 
@@ -505,11 +490,11 @@ Function Format-Pester {
                     }
 
                 }
-                ElseIf ( $Order -eq 'FailedFirst' ) {
+                Elseif ( $Order -eq 'FailedFirst' ) {
 
                     $ResultsOrderInternal = @('Failed', 'Passed', 'Skipped', 'Pending', 'Inconclusive')
 
-                    If ( $IncludeInternal -notcontains 'Passed' ) {
+                    if ( $IncludeInternal -notcontains 'Passed' ) {
 
                         [String]$MessageText = $LocalizedStrings.msgX004
 
@@ -518,18 +503,18 @@ Function Format-Pester {
                     }
 
                 }
-                ElseIf ( [String]::IsNullOrEmpty($ResultsOrder) ) {
+                Elseif ( [String]::IsNullOrEmpty($ResultsOrder) ) {
 
                     $ResultsOrderInternal = @('Failed', 'Passed', 'Skipped', 'Pending', 'Inconclusive')
 
                 }
-                Else {
+                else {
 
                     ForEach ( $CurrentResult in $ResultsOrder ) {
 
-                        If ( $TestResultsNames -contains $CurrentResult) {
+                        if ( $TestResultsNames -contains $CurrentResult) {
 
-                            If ( $ResultsOrderInternal -contains $CurrentResult ) {
+                            if ( $ResultsOrderInternal -contains $CurrentResult ) {
 
                                 [String]$MessageText = $LocalizedStrings.msgA020 -f $CurrentResult
 
@@ -543,9 +528,9 @@ Function Format-Pester {
                             }
 
                         }
-                        Else {
+                        else {
 
-                            [String]$MessageText = LocalizedStrings.msgA021 -f $CurrentResult
+                            [String]$MessageText = $LocalizedStrings.msgA021 -f $CurrentResult
 
                             Write-Warning -Message $MessageText
 
@@ -559,7 +544,7 @@ Function Format-Pester {
 
                 ForEach ( $CurrentResultTestName in $TestResultsNames ) {
 
-                    If ( $ResultsOrderInternal -notcontains $CurrentResultTestName ) {
+                    if ( $ResultsOrderInternal -notcontains $CurrentResultTestName ) {
 
                         $MissedResultsNames += $CurrentResultTestName
 
@@ -567,7 +552,7 @@ Function Format-Pester {
 
                 }
 
-                If ( $MissedResultsNames.Count -gt 0 ) {
+                if ( $MissedResultsNames.Count -gt 0 ) {
 
                     ForEach ( $CurrentMissedResultName in $MissedResultsNames ) {
 
@@ -579,11 +564,11 @@ Function Format-Pester {
 
                 ForEach ( $CurrentResultTestName in $ResultsOrderInternal ) {
 
-                    If ( $IncludeInternal -contains $CurrentResultTestName ) {
+                    if ( $IncludeInternal -contains $CurrentResultTestName ) {
 
                         [String]$CurrentTestCountName = "{0}Count" -f $CurrentResultTestName
 
-                        If ( $PesterResult.$CurrentTestCountName -gt 0 ) {
+                        if ( $PesterResult.$CurrentTestCountName -gt 0 ) {
 
                             $EvaluateResults += $CurrentResultTestName
 
@@ -678,7 +663,7 @@ Function Format-Pester {
 
                 $CurrentPesterTestResults = $PesterTestsResults | Where-object -FilterScript { $_.Result -eq $CurrentResultType }
 
-                If ($GroupResultsBy -eq 'Result') {
+                if ($GroupResultsBy -eq 'Result') {
 
                     [String]$Header1Title = $Header1TitlePart
 
@@ -690,7 +675,7 @@ Function Format-Pester {
                     }
 
                 }
-                Else {
+                else {
 
                     Section -Name $Head1SectionTitle -Style Heading1 -ScriptBlock {
 
@@ -716,7 +701,7 @@ Function Format-Pester {
 
                                 Write-Verbose -Message $MessageText
 
-                                If ($GroupResultsBy -eq 'Result-Describe-Context') {
+                                if ($GroupResultsBy -eq 'Result-Describe-Context') {
 
                                     [Array]$Headers3 = $CurrentPesterTestResults2 | Select-Object -Property Context -Unique
 
@@ -745,7 +730,7 @@ Function Format-Pester {
                                     }
 
                                 } #$GroupResultsBy -eq 'Result-Describe-Context'
-                                Else {
+                                else {
 
                                     [String]$MessageText = "{0} {1} {2}, {3}: {4}" -f $LocalizedStrings.msgA016, $Header3TitlePart, $($Header3.Context), $LocalizedStrings.msgA017, $CurrentPesterTestResultsCount3
 
@@ -770,13 +755,13 @@ Function Format-Pester {
 
     }
 
-    If ($DumpPScriboObject.IsPresent) {
+    if ($DumpPScriboObject.IsPresent) {
 
         Return $PScriboObject
 
     }
 
-    If ( $exportParams.Count -gt 0 ) {
+    if ( $exportParams.Count -gt 0 ) {
 
         [String]$MessageText = $LocalizedStrings.msgA022
 
