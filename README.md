@@ -35,8 +35,8 @@ If you would like to add support for your language please read the section [Info
 
 # Requirements
 
-- Powershell v.4.x
-- [Pester](https://github.com/pester/Pester)
+- Powershell v.4.x, v.5.x
+- [Pester](https://github.com/pester/Pester) v.4.x
 - [PScribo](https://github.com/iainbrighton/PScribo)
 
 # Usage
